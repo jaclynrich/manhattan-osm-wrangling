@@ -27,8 +27,7 @@ schema = {
             'schema': {
                 'id': {'required': True, 'type': 'integer', 'coerce': int},
                 'key': {'required': True, 'type': 'string'},
-                'value': {'required': True, 'type': 'string'},
-                'type': {'required': True, 'type': 'string'}
+                'value': {'required': True, 'type': 'string'}
             }
         }
     },
@@ -61,8 +60,7 @@ schema = {
             'schema': {
                 'id': {'required': True, 'type': 'integer', 'coerce': int},
                 'key': {'required': True, 'type': 'string'},
-                'value': {'required': True, 'type': 'string'},
-                'type': {'required': True, 'type': 'string'}
+                'value': {'required': True, 'type': 'string'}
             }
         }
     },
@@ -84,8 +82,7 @@ schema = {
             'schema': {
                 'id': {'required': True, 'type': 'integer', 'coerce': int},    
                 'key': {'required': True, 'type': 'string'},
-                'value': {'required': True, 'type': 'string'},
-                'type': {'required': True, 'type': 'string'}
+                'value': {'required': True, 'type': 'string'}
             }
         }    
     },

@@ -9,7 +9,6 @@ Created on Thu Nov  2 22:23:27 2017
 from csv import DictWriter
 import codecs
 import pprint
-import re
 import xml.etree.cElementTree as ET
 import cerberus
 import schema
@@ -25,29 +24,24 @@ RELATIONS_PATH = 'output/relations.csv'
 RELATION_TAGS_PATH = 'output/relation_tags.csv'
 RELATION_MEMBERS_PATH = 'output/relation_members.csv'
 
-LOWER_COLON = re.compile(r'^([a-z]|_)+:([a-z]|_)+')
-PROBLEMCHARS = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
-
 SCHEMA = schema.schema
 
 # Make sure the fields order in the csvs matches the column order in
 # the sql table schema
 NODE_FIELDS = ['id', 'lat', 'lon', 'user', 'uid', 'version', 'changeset',
                'timestamp']
-NODE_TAGS_FIELDS = ['id', 'key', 'value', 'type']
+NODE_TAGS_FIELDS = ['id', 'key', 'value']
 WAY_FIELDS = ['id', 'user', 'uid', 'version', 'changeset', 'timestamp']
-WAY_TAGS_FIELDS = ['id', 'key', 'value', 'type']
+WAY_TAGS_FIELDS = ['id', 'key', 'value']
 WAY_NODES_FIELDS = ['id', 'node_id', 'position']
 RELATIONS_FIELDS = ['id', 'user', 'uid', 'version', 'changeset', 'timestamp']
-RELATION_TAG_FIELDS = ['id', 'key', 'value', 'type']
+RELATION_TAG_FIELDS = ['id', 'key', 'value']
 RELATION_MEMBER_FIELDS = ['id', 'type', 'node_id', 'role', 'position']
 
 #%%
 def shape_element(element, node_attr_fields=NODE_FIELDS,
                   way_attr_fields=WAY_FIELDS,
-                  rel_attr_fields = RELATIONS_FIELDS,
-                  problem_chars=PROBLEMCHARS, 
-                  default_tag_type='regular'):
+                  rel_attr_fields = RELATIONS_FIELDS):
     """Clean and shape node, way, relation XML element to Python dict"""
 
     node_attribs = {}
@@ -68,14 +62,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             node_tags = {}
             node_tags['id'] = element.attrib['id']
             key = tag.attrib['k']
-            if PROBLEMCHARS.match(key):
-                continue 
-            elif LOWER_COLON.match(key):
-                node_tags['key'] = tag.attrib['k'].split(':',1)[1]
-                node_tags['type'] = tag.attrib['k'].split(':',1)[0]
-            else:
-                node_tags['key'] = tag.attrib['k']
-                node_tags['type'] = default_tag_type
+            
+            node_tags['key'] = key
             node_tags['value'] = tag.attrib['v']
             
             tags.append(node_tags)
@@ -92,16 +80,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
         for tag in element.iter('tag'):
             way_tags = {}
             way_tags['id'] = element.attrib['id']
-            key = tag.attrib['k']
-            if PROBLEMCHARS.match(key):
-                continue
-            elif LOWER_COLON.match(key):
-                way_tags['key'] = tag.attrib['k'].split(':',1)[1]
-                way_tags['type'] = tag.attrib['k'].split(':',1)[0]
-            else:
-                way_tags['key'] = tag.attrib['k']
-                way_tags['type'] = default_tag_type
             
+            key = tag.attrib['k']
+            way_tags['key'] = key
             way_tags['value'] = tag.attrib['v']
             
             tags.append(way_tags)
@@ -127,16 +108,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
         for tag in element.iter('tag'):
             rel_tags = {}
             rel_tags['id'] = element.attrib['id']
+            
             key = tag.attrib['k']
-            if PROBLEMCHARS.match(key):
-                continue
-            elif LOWER_COLON.match(key):
-                rel_tags['key'] = tag.attrib['k'].split(':',1)[1]
-                rel_tags['type'] = tag.attrib['k'].split(':',1)[0]
-            else:
-                rel_tags['key'] = tag.attrib['k']
-                rel_tags['type'] = default_tag_type
-            rel_tags['value']=tag.attrib['v']
+            rel_tags['key'] = key
+            rel_tags['value'] = tag.attrib['v']
+            
             tags.append(rel_tags)
 
         i = 0

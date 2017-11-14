@@ -9,6 +9,7 @@ Functions for auditing the data
 """
 
 import xml.etree.cElementTree as ET
+import re
 
 file = 'lower_manhattan.osm.xml'
 
@@ -19,6 +20,13 @@ def get_tag_key_counts(filename):
         if elem.tag == 'tag':
             keys[elem.attrib['k']] = keys.get(elem.attrib['k'], 0) + 1
     return keys
+
+# There are no tags with PROBLEMCHARS
+tags = get_tag_key_counts(file)
+PROBLEMCHARS = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
+for tag in tags:
+    if PROBLEMCHARS.match(tag):
+        print(tag)
 
 def get_unexpected_counts(filename, key, valid_list):
     """ Returns the counts of all of the unexpected values for a particular
@@ -41,4 +49,4 @@ def print_non_numeric_counts(filename, key):
                 except ValueError:
                     if elem.attrib['v'] is not None:
                         print(elem.attrib['v'])
-    
+
