@@ -13,6 +13,9 @@ import xml.etree.cElementTree as ET
 import cerberus
 import schema
 
+# Cleaning functions and variables
+from addr_postcodes import update_postcode
+
 OSM_PATH = 'lower_manhattan.osm.xml'
 
 NODES_PATH = 'output/nodes.csv'
@@ -61,10 +64,15 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
         for tag in element.iter('tag'):
             node_tags = {}
             node_tags['id'] = element.attrib['id']
-            key = tag.attrib['k']
             
+            key = tag.attrib['k']
+            value = tag.attrib['v']
             node_tags['key'] = key
-            node_tags['value'] = tag.attrib['v']
+            
+            if key == 'addr:postcode':
+                node_tags['value'] = update_postcode(value)
+            else:
+                node_tags['value'] = value
             
             tags.append(node_tags)
         
@@ -82,8 +90,13 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             way_tags['id'] = element.attrib['id']
             
             key = tag.attrib['k']
+            value = tag.attrib['v']
             way_tags['key'] = key
-            way_tags['value'] = tag.attrib['v']
+            
+            if key == 'addr:postcode':
+                way_tags['value'] = update_postcode(value)
+            else:
+                way_tags['value'] = value
             
             tags.append(way_tags)
 
@@ -110,8 +123,13 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             rel_tags['id'] = element.attrib['id']
             
             key = tag.attrib['k']
+            value = tag.attrib['v']
             rel_tags['key'] = key
-            rel_tags['value'] = tag.attrib['v']
+            
+            if key == 'addr:postcode':
+                rel_tags['value'] = update_postcode(value)
+            else:
+                rel_tags['value'] = value
             
             tags.append(rel_tags)
 
