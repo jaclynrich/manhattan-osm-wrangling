@@ -91,7 +91,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             else:
                 node_tags['value'] = value
             
-            tags.append(node_tags)
+            # Skip any values that are None
+            if node_tags['value'] == None:
+                continue
+            else:
+                tags.append(node_tags)
         
         return {'node': node_attribs, 'node_tags': tags}
 
@@ -129,7 +133,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             else:
                 way_tags['value'] = value
             
-            tags.append(way_tags)
+            # Skip any values that are None
+            if way_tags['value'] == None:
+                continue
+            else:
+                tags.append(way_tags)
 
         i = 0
         for nd in element.iter('nd'):
@@ -176,7 +184,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             else:
                 rel_tags['value'] = value
             
-            tags.append(rel_tags)
+            # Skip any values that are None
+            if rel_tags['value'] == None:
+                continue
+            else:
+                tags.append(rel_tags)
 
         i = 0
         for mem in element.iter('member'):
