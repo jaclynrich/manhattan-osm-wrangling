@@ -82,6 +82,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
             elif key == 'addr:city':
                 node_tags['value'] = update_city(value)
+            elif key == 'addr:state':
+                # No need for function, NY is the only valid value
+                node_tags['value'] = 'NY'
             else:
                 node_tags['value'] = value
             
@@ -114,6 +117,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
             elif key == 'addr:city':
                 way_tags['value'] = update_city(value)
+            elif key == 'addr:state':
+                # No need for function, NY is the only valid value
+                way_tags['value'] = 'NY'
             else:
                 way_tags['value'] = value
             
@@ -155,6 +161,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
             elif key == 'addr:city':
                 rel_tags['value'] = update_city(value)
+            elif key == 'addr:state':
+                # No need for function, NY is the only valid value
+                rel_tags['value'] = 'NY'
             else:
                 rel_tags['value'] = value
             
