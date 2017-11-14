@@ -15,7 +15,9 @@ import schema
 
 # Cleaning functions and variables
 from addr_postcodes import update_postcode
-from cleaning import *
+from cleaning import clean_with_mapping, height_mapping, min_height_mapping, \
+    nycdoitt_bin_mapping
+from addr_city import update_city
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -78,6 +80,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = clean_with_mapping(value, min_height_mapping)
             elif key == 'nycdoitt:bin':
                 node_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
+            elif key == 'addr:city':
+                node_tags['value'] = update_city(value)
             else:
                 node_tags['value'] = value
             
@@ -108,6 +112,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = clean_with_mapping(value, min_height_mapping)
             elif key == 'nycdoitt:bin':
                 way_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
+            elif key == 'addr:city':
+                way_tags['value'] = update_city(value)
             else:
                 way_tags['value'] = value
             
@@ -147,6 +153,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = clean_with_mapping(value, min_height_mapping)
             elif key == 'nycdoitt:bin':
                 rel_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
+            elif key == 'addr:city':
+                rel_tags['value'] = update_city(value)
             else:
                 rel_tags['value'] = value
             
