@@ -85,6 +85,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:state':
                 # No need for function, NY is the only valid value
                 node_tags['value'] = 'NY'
+            elif key == 'addr:country':
+                # No need for function, US is the only valid value
+                node_tags['value'] = 'US'
             else:
                 node_tags['value'] = value
             
@@ -120,6 +123,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:state':
                 # No need for function, NY is the only valid value
                 way_tags['value'] = 'NY'
+            elif key == 'addr:country':
+                # No need for function, US is the only valid value
+                way_tags['value'] = 'US'
             else:
                 way_tags['value'] = value
             
@@ -164,6 +170,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:state':
                 # No need for function, NY is the only valid value
                 rel_tags['value'] = 'NY'
+            elif key == 'addr:country':
+                # No need for function, US is the only valid value
+                rel_tags['value'] = 'US'
             else:
                 rel_tags['value'] = value
             
