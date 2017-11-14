@@ -15,6 +15,7 @@ import schema
 
 # Cleaning functions and variables
 from addr_postcodes import update_postcode
+from cleaning import *
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -71,6 +72,12 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             if key == 'addr:postcode':
                 node_tags['value'] = update_postcode(value)
+            elif key == 'height':
+                node_tags['value'] = clean_with_mapping(value, height_mapping)
+            elif key == 'min_height':
+                node_tags['value'] = clean_with_mapping(value, min_height_mapping)
+            elif key == 'nycdoitt:bin':
+                node_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
             else:
                 node_tags['value'] = value
             
@@ -95,6 +102,12 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             if key == 'addr:postcode':
                 way_tags['value'] = update_postcode(value)
+            elif key == 'height':
+                way_tags['value'] = clean_with_mapping(value, height_mapping)
+            elif key == 'min_height':
+                way_tags['value'] = clean_with_mapping(value, min_height_mapping)
+            elif key == 'nycdoitt:bin':
+                way_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
             else:
                 way_tags['value'] = value
             
@@ -128,6 +141,12 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             if key == 'addr:postcode':
                 rel_tags['value'] = update_postcode(value)
+            elif key == 'height':
+                rel_tags['value'] = clean_with_mapping(value, height_mapping)
+            elif key == 'min_height':
+                rel_tags['value'] = clean_with_mapping(value, min_height_mapping)
+            elif key == 'nycdoitt:bin':
+                rel_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
             else:
                 rel_tags['value'] = value
             
