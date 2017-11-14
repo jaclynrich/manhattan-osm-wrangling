@@ -16,8 +16,9 @@ import schema
 # Cleaning functions and variables
 from addr_postcodes import update_postcode
 from cleaning import clean_with_mapping, height_mapping, min_height_mapping, \
-    nycdoitt_bin_mapping
+    nycdoitt_bin_mapping, get_key
 from addr_city import update_city
+from building import building_key_mapping, building_mapping
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -70,7 +71,6 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             key = tag.attrib['k']
             value = tag.attrib['v']
-            node_tags['key'] = key
             
             if key == 'addr:postcode':
                 node_tags['value'] = update_postcode(value)
@@ -88,8 +88,13 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:country':
                 # No need for function, US is the only valid value
                 node_tags['value'] = 'US'
+            elif key == 'building':
+                key = get_key(value, key, building_key_mapping)
+                node_tags['value'] = clean_with_mapping(value, building_mapping)
             else:
                 node_tags['value'] = value
+            
+            node_tags['key'] = key
             
             # Skip any values that are None
             if node_tags['value'] == None:
@@ -112,7 +117,6 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             key = tag.attrib['k']
             value = tag.attrib['v']
-            way_tags['key'] = key
             
             if key == 'addr:postcode':
                 way_tags['value'] = update_postcode(value)
@@ -130,9 +134,14 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:country':
                 # No need for function, US is the only valid value
                 way_tags['value'] = 'US'
+            elif key == 'building':
+                key = get_key(value, key, building_key_mapping)
+                way_tags['value'] = clean_with_mapping(value, building_mapping)
             else:
                 way_tags['value'] = value
-            
+
+            way_tags['key'] = key 
+           
             # Skip any values that are None
             if way_tags['value'] == None:
                 continue
@@ -163,7 +172,6 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             key = tag.attrib['k']
             value = tag.attrib['v']
-            rel_tags['key'] = key
             
             if key == 'addr:postcode':
                 rel_tags['value'] = update_postcode(value)
@@ -181,8 +189,13 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:country':
                 # No need for function, US is the only valid value
                 rel_tags['value'] = 'US'
+            elif key == 'building':
+                key = get_key(value, key, building_key_mapping)
+                rel_tags['value'] = clean_with_mapping(value, building_mapping)
             else:
                 rel_tags['value'] = value
+            
+            rel_tags['key'] = key
             
             # Skip any values that are None
             if rel_tags['value'] == None:
@@ -241,13 +254,19 @@ def process_map(file_in, validate):
          codecs.open(RELATION_MEMBERS_PATH, 'w') as rel_members_file:
              
              nodes_writer = DictWriter(nodes_file, fieldnames=NODE_FIELDS)
-             node_tags_writer = DictWriter(nodes_tags_file, fieldnames=NODE_TAGS_FIELDS)
+             node_tags_writer = DictWriter(nodes_tags_file, \
+                                           fieldnames=NODE_TAGS_FIELDS)
              ways_writer = DictWriter(ways_file, fieldnames=WAY_FIELDS)
-             way_nodes_writer = DictWriter(way_nodes_file, fieldnames=WAY_NODES_FIELDS)
-             way_tags_writer = DictWriter(way_tags_file, fieldnames=WAY_TAGS_FIELDS)
-             rel_writer = DictWriter(relations_file, fieldnames=RELATIONS_FIELDS)
-             rel_tags_writer = DictWriter(rel_tags_file, fieldnames=RELATION_TAG_FIELDS)
-             rel_members_writer = DictWriter(rel_members_file, fieldnames=RELATION_MEMBER_FIELDS)
+             way_nodes_writer = DictWriter(way_nodes_file, \
+                                           fieldnames=WAY_NODES_FIELDS)
+             way_tags_writer = DictWriter(way_tags_file, \
+                                          fieldnames=WAY_TAGS_FIELDS)
+             rel_writer = DictWriter(relations_file, \
+                                     fieldnames=RELATIONS_FIELDS)
+             rel_tags_writer = DictWriter(rel_tags_file, \
+                                          fieldnames=RELATION_TAG_FIELDS)
+             rel_members_writer = DictWriter(rel_members_file, \
+                                             fieldnames=RELATION_MEMBER_FIELDS)
              
              nodes_writer.writeheader()
              node_tags_writer.writeheader()

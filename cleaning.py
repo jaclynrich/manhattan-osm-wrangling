@@ -33,8 +33,17 @@ pprint(print_non_numeric_counts(file, 'nycdoitt:bin'))
 nycdoitt_bin_mapping = {'1010604; 1083193; 1010604; 1083193; 1083194': '1083193'}
 
 #%%
-def clean_with_mapping(field, mapping):
-    """ Returns the cleaned version of the field value, after using the mapping"""
-    if field in mapping.keys():
-        return mapping[field]
-    return field
+def clean_with_mapping(value, mapping):
+    """ Returns the cleaned version of the value, after using the mapping"""
+    if value in mapping.keys():
+        return mapping[value]
+    return value
+
+def get_key(value, key, key_mapping):
+    """ Returns the key for the given value.  Some values may need to be
+    reassigned to a different key according to the key mapping."""
+    # return corrected key if necessary
+    if value in key_mapping:
+        return key_mapping[value]
+    else:
+        return key
