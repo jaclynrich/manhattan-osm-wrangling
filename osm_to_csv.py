@@ -15,8 +15,9 @@ import schema
 
 # Cleaning functions and variables
 from addr_postcode import update_postcode
-from cleaning import clean_with_mapping, height_mapping, min_height_mapping, \
-    nycdoitt_bin_mapping, get_key, building_part_mapping
+from cleaning import clean_w_map, height_mapping, min_height_mapping, \
+    nycdoitt_bin_mapping, get_key, building_part_mapping, \
+    building_levels_mapping
 from addr_city import update_city
 from building import building_key_mapping, building_mapping
 from roof_material import roof_material_mapping
@@ -82,11 +83,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             if key == 'addr:postcode':
                 node_tags['value'] = update_postcode(value)
             elif key == 'height':
-                node_tags['value'] = clean_with_mapping(value, height_mapping)
+                node_tags['value'] = clean_w_map(value, height_mapping)
             elif key == 'min_height':
-                node_tags['value'] = clean_with_mapping(value, min_height_mapping)
+                node_tags['value'] = clean_w_map(value, min_height_mapping)
             elif key == 'nycdoitt:bin':
-                node_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
+                node_tags['value'] = clean_w_map(value, nycdoitt_bin_mapping)
             elif key == 'addr:city':
                 node_tags['value'] = update_city(value)
             elif key == 'addr:state':
@@ -97,26 +98,28 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = 'US'
             elif key == 'building':
                 key = get_key(value, key, building_key_mapping)
-                node_tags['value'] = clean_with_mapping(value, building_mapping)
+                node_tags['value'] = clean_w_map(value, building_mapping)
             elif key == 'roof:material':
-                node_tags['value'] = clean_with_mapping(value, roof_material_mapping)
+                node_tags['value'] = clean_w_map(value, roof_material_mapping)
             elif key == 'building:material':
-                node_tags['value'] = clean_with_mapping(value, building_material_mapping)
+                node_tags['value'] = clean_w_map(value, building_material_mapping)
             elif key == 'highway':
-                node_tags['value'] = clean_with_mapping(value, highway_mapping)
+                node_tags['value'] = clean_w_map(value, highway_mapping)
             elif key == 'capacity':
                 key = get_key(value, key, capacity_key_mapping)
-                node_tags['value'] = clean_with_mapping(value, capacity_mapping)
+                node_tags['value'] = clean_w_map(value, capacity_mapping)
             elif key == 'amenity':
                 key = get_key(value, key, amenity_key_mapping)
-                node_tags['value'] = clean_with_mapping(value, amenity_mapping)
+                node_tags['value'] = clean_w_map(value, amenity_mapping)
             elif key == 'building:part':
-                node_tags['value'] = clean_with_mapping(value, building_part_mapping)
+                node_tags['value'] = clean_w_map(value, building_part_mapping)
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
-                node_tags['value'] = clean_with_mapping(value, shop_mapping)
+                node_tags['value'] = clean_w_map(value, shop_mapping)
+            elif key == 'building:levels':
+                node_tags['value'] = clean_w_map(value, building_levels_mapping)
             else:
                 node_tags['value'] = value
             
@@ -156,11 +159,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             if key == 'addr:postcode':
                 way_tags['value'] = update_postcode(value)
             elif key == 'height':
-                way_tags['value'] = clean_with_mapping(value, height_mapping)
+                way_tags['value'] = clean_w_map(value, height_mapping)
             elif key == 'min_height':
-                way_tags['value'] = clean_with_mapping(value, min_height_mapping)
+                way_tags['value'] = clean_w_map(value, min_height_mapping)
             elif key == 'nycdoitt:bin':
-                way_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
+                way_tags['value'] = clean_w_map(value, nycdoitt_bin_mapping)
             elif key == 'addr:city':
                 way_tags['value'] = update_city(value)
             elif key == 'addr:state':
@@ -171,26 +174,26 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = 'US'
             elif key == 'building':
                 key = get_key(value, key, building_key_mapping)
-                way_tags['value'] = clean_with_mapping(value, building_mapping)
+                way_tags['value'] = clean_w_map(value, building_mapping)
             elif key == 'roof:material':
-                way_tags['value'] = clean_with_mapping(value, roof_material_mapping)
+                way_tags['value'] = clean_w_map(value, roof_material_mapping)
             elif key == 'building:material':
-                way_tags['value'] = clean_with_mapping(value, building_material_mapping)
+                way_tags['value'] = clean_w_map(value, building_material_mapping)
             elif key == 'highway':
-                way_tags['value'] = clean_with_mapping(value, highway_mapping)
+                way_tags['value'] = clean_w_map(value, highway_mapping)
             elif key == 'capacity':
                 key = get_key(value, key, capacity_key_mapping)
-                way_tags['value'] = clean_with_mapping(value, capacity_mapping)
+                way_tags['value'] = clean_w_map(value, capacity_mapping)
             elif key == 'amenity':
                 key = get_key(value, key, amenity_key_mapping)
-                way_tags['value'] = clean_with_mapping(value, amenity_mapping)
+                way_tags['value'] = clean_w_map(value, amenity_mapping)
             elif key == 'building:part':
-                way_tags['value'] = clean_with_mapping(value, building_part_mapping)
+                way_tags['value'] = clean_w_map(value, building_part_mapping)
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
-                way_tags['value'] = clean_with_mapping(value, shop_mapping)
+                way_tags['value'] = clean_w_map(value, shop_mapping)
             else:
                 way_tags['value'] = value
 
@@ -230,11 +233,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             if key == 'addr:postcode':
                 rel_tags['value'] = update_postcode(value)
             elif key == 'height':
-                rel_tags['value'] = clean_with_mapping(value, height_mapping)
+                rel_tags['value'] = clean_w_map(value, height_mapping)
             elif key == 'min_height':
-                rel_tags['value'] = clean_with_mapping(value, min_height_mapping)
+                rel_tags['value'] = clean_w_map(value, min_height_mapping)
             elif key == 'nycdoitt:bin':
-                rel_tags['value'] = clean_with_mapping(value, nycdoitt_bin_mapping)
+                rel_tags['value'] = clean_w_map(value, nycdoitt_bin_mapping)
             elif key == 'addr:city':
                 rel_tags['value'] = update_city(value)
             elif key == 'addr:state':
@@ -245,26 +248,26 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = 'US'
             elif key == 'building':
                 key = get_key(value, key, building_key_mapping)
-                rel_tags['value'] = clean_with_mapping(value, building_mapping)
+                rel_tags['value'] = clean_w_map(value, building_mapping)
             elif key == 'roof:material':
-                rel_tags['value'] = clean_with_mapping(value, roof_material_mapping)
+                rel_tags['value'] = clean_w_map(value, roof_material_mapping)
             elif key == 'building:material':
-                rel_tags['value'] = clean_with_mapping(value, building_material_mapping)
+                rel_tags['value'] = clean_w_map(value, building_material_mapping)
             elif key == 'highway':
-                rel_tags['value'] = clean_with_mapping(value, highway_mapping)
+                rel_tags['value'] = clean_w_map(value, highway_mapping)
             elif key == 'capacity':
                 key = get_key(value, key, capacity_key_mapping)
-                rel_tags['value'] = clean_with_mapping(value, capacity_mapping)
+                rel_tags['value'] = clean_w_map(value, capacity_mapping)
             elif key == 'amenity':
                 key = get_key(value, key, amenity_key_mapping)
-                rel_tags['value'] = clean_with_mapping(value, amenity_mapping)
+                rel_tags['value'] = clean_w_map(value, amenity_mapping)
             elif key == 'building:part':
-                rel_tags['value'] = clean_with_mapping(value, building_part_mapping)
+                rel_tags['value'] = clean_w_map(value, building_part_mapping)
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
-                rel_tags['value'] = clean_with_mapping(value, shop_mapping)
+                rel_tags['value'] = clean_w_map(value, shop_mapping)
             else:
                 rel_tags['value'] = value
             

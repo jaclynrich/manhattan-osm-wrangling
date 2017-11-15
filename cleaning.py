@@ -35,8 +35,14 @@ building_part_mapping = {'#7F7E79': None,
                          'no': None,
                          'works': None}
 
+# tag key = building:levels
+building_levels_mapping = {'2;1' : 2,
+                           '1, 1M, 2M, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, \
+                           15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25': '25',
+                           'concrete': None}
+
 #%%
-def clean_with_mapping(value, mapping):
+def clean_w_map(value, mapping):
     """ Returns the cleaned version of the value, after using the mapping"""
     if value in mapping.keys():
         return mapping[value]
@@ -57,3 +63,4 @@ if __name__ == '__main__':
     pprint(get_non_numeric(file, 'min_height'))
     pprint(get_non_numeric(file, 'nycdoitt:bin'))
     pprint(get_unexpected_counts(file, 'building:part'))
+    pprint(get_non_numeric(file, 'building:levels'))
