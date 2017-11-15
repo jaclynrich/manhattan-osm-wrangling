@@ -29,6 +29,12 @@ min_height_mapping = {'5;5.5' : '5'}
 # tag key = nycdoitt:bin
 nycdoitt_bin_mapping = {'1010604; 1083193; 1010604; 1083193; 1083194': '1083193'}
 
+# tag key = building:part
+building_part_mapping = {'#7F7E79': None,
+                         'column': None,
+                         'no': None,
+                         'works': None}
+
 #%%
 def clean_with_mapping(value, mapping):
     """ Returns the cleaned version of the value, after using the mapping"""
@@ -50,4 +56,4 @@ if __name__ == '__main__':
     pprint(get_non_numeric(file, 'height'))
     pprint(get_non_numeric(file, 'min_height'))
     pprint(get_non_numeric(file, 'nycdoitt:bin'))
-
+    pprint(get_unexpected_counts(file, 'building:part'))

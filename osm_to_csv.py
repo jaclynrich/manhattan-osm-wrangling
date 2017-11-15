@@ -16,7 +16,7 @@ import schema
 # Cleaning functions and variables
 from addr_postcode import update_postcode
 from cleaning import clean_with_mapping, height_mapping, min_height_mapping, \
-    nycdoitt_bin_mapping, get_key
+    nycdoitt_bin_mapping, get_key, building_part_mapping
 from addr_city import update_city
 from building import building_key_mapping, building_mapping
 from roof_material import roof_material_mapping
@@ -108,6 +108,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'amenity':
                 key = get_key(value, key, amenity_key_mapping)
                 node_tags['value'] = clean_with_mapping(value, amenity_mapping)
+            elif key == 'building:part':
+                node_tags['value'] = clean_with_mapping(value, building_part_mapping)
             else:
                 node_tags['value'] = value
             
@@ -166,6 +168,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'amenity':
                 key = get_key(value, key, amenity_key_mapping)
                 way_tags['value'] = clean_with_mapping(value, amenity_mapping)
+            elif key == 'building:part':
+                way_tags['value'] = clean_with_mapping(value, building_part_mapping)
             else:
                 way_tags['value'] = value
 
@@ -233,6 +237,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'amenity':
                 key = get_key(value, key, amenity_key_mapping)
                 rel_tags['value'] = clean_with_mapping(value, amenity_mapping)
+            elif key == 'building:part':
+                rel_tags['value'] = clean_with_mapping(value, building_part_mapping)
             else:
                 rel_tags['value'] = value
             
