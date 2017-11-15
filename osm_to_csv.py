@@ -24,6 +24,7 @@ from building_material import building_material_mapping
 from highway import highway_mapping
 from capacity import capacity_key_mapping, capacity_mapping
 from amenity import amenity_key_mapping, amenity_mapping
+from leisure import leisure_key_mapping
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -110,6 +111,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = clean_with_mapping(value, amenity_mapping)
             elif key == 'building:part':
                 node_tags['value'] = clean_with_mapping(value, building_part_mapping)
+            elif key == 'leisure':
+                key = get_key(value, key, leisure_key_mapping)
             else:
                 node_tags['value'] = value
             
@@ -170,6 +173,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = clean_with_mapping(value, amenity_mapping)
             elif key == 'building:part':
                 way_tags['value'] = clean_with_mapping(value, building_part_mapping)
+            elif key == 'leisure':
+                key = get_key(value, key, leisure_key_mapping)
             else:
                 way_tags['value'] = value
 
@@ -239,6 +244,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = clean_with_mapping(value, amenity_mapping)
             elif key == 'building:part':
                 rel_tags['value'] = clean_with_mapping(value, building_part_mapping)
+            elif key == 'leisure':
+                key = get_key(value, key, leisure_key_mapping)
             else:
                 rel_tags['value'] = value
             
