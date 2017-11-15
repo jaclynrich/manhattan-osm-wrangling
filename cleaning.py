@@ -5,7 +5,7 @@ Created on Tue Nov  7 20:11:31 2017
 
 @author: Jackie
 """
-from auditing import get_unexpected_counts, print_non_numeric_counts
+from auditing import get_unexpected_counts, get_non_numeric
 from pprint import pprint
 
 file = 'lower_manhattan.osm.xml'
@@ -14,7 +14,6 @@ file = 'lower_manhattan.osm.xml'
 # Tag keys that only require a simple mapping function to clean
 
 # tag key = height
-pprint(print_non_numeric_counts(file, 'height'))
 height_mapping = {'20ft' : '6.1',
                   '8ft' : '2.4',
                   '7ft' : '2.1',
@@ -25,11 +24,9 @@ height_mapping = {'20ft' : '6.1',
                   '14.8; 16.8; 14.8; 16.8; 15.2' : '16.8'}
 
 # tag key = min_height
-pprint(print_non_numeric_counts(file, 'min_height'))
 min_height_mapping = {'5;5.5' : '5'}
 
 # tag key = nycdoitt:bin
-pprint(print_non_numeric_counts(file, 'nycdoitt:bin'))
 nycdoitt_bin_mapping = {'1010604; 1083193; 1010604; 1083193; 1083194': '1083193'}
 
 #%%
@@ -47,3 +44,10 @@ def get_key(value, key, key_mapping):
         return key_mapping[value]
     else:
         return key
+
+#%%
+if __name__ == '__main__':
+    pprint(get_non_numeric(file, 'height'))
+    pprint(get_non_numeric(file, 'min_height'))
+    pprint(get_non_numeric(file, 'nycdoitt:bin'))
+

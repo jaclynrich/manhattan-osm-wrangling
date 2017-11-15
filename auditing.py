@@ -39,8 +39,9 @@ def get_unexpected_counts(filename, key, valid_list):
                     (elem.attrib['v'], 0) + 1
     return attrib_counts
 
-def print_non_numeric_counts(filename, key):
-    """ Prints the non-numeric values for a particular tag key"""
+def get_non_numeric(filename, key):
+    """ Returns the non-numeric values for a particular tag key"""
+    non_num = []
     for _, elem in ET.iterparse(filename, events=('start',)):
         if elem.tag == 'tag':
             if elem.attrib['k'] == key:
@@ -48,5 +49,5 @@ def print_non_numeric_counts(filename, key):
                     float(elem.attrib['v'])
                 except ValueError:
                     if elem.attrib['v'] is not None:
-                        print(elem.attrib['v'])
-
+                        non_num.append(elem.attrib['v'])
+    return non_num
