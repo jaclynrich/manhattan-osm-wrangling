@@ -22,6 +22,7 @@ from building import building_key_mapping, building_mapping
 from roof_material import roof_material_mapping
 from building_material import building_material_mapping
 from highway import highway_mapping
+from capacity import capacity_key_mapping, capacity_mapping
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -100,6 +101,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = clean_with_mapping(value, building_material_mapping)
             elif key == 'highway':
                 node_tags['value'] = clean_with_mapping(value, highway_mapping)
+            elif key == 'capacity':
+                key = get_key(value, key, capacity_key_mapping)
+                node_tags['value'] = clean_with_mapping(value, capacity_mapping)
             else:
                 node_tags['value'] = value
             
@@ -152,6 +156,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = clean_with_mapping(value, building_material_mapping)
             elif key == 'highway':
                 way_tags['value'] = clean_with_mapping(value, highway_mapping)
+            elif key == 'capacity':
+                key = get_key(value, key, capacity_key_mapping)
+                way_tags['value'] = clean_with_mapping(value, capacity_mapping)
             else:
                 way_tags['value'] = value
 
@@ -213,6 +220,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = clean_with_mapping(value, building_material_mapping)
             elif key == 'highway':
                 rel_tags['value'] = clean_with_mapping(value, highway_mapping)
+            elif key == 'capacity':
+                key = get_key(value, key, capacity_key_mapping)
+                rel_tags['value'] = clean_with_mapping(value, capacity_mapping)
             else:
                 rel_tags['value'] = value
             
