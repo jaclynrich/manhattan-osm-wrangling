@@ -14,11 +14,13 @@ import cerberus
 import schema
 
 # Cleaning functions and variables
-from addr_postcodes import update_postcode
+from addr_postcode import update_postcode
 from cleaning import clean_with_mapping, height_mapping, min_height_mapping, \
     nycdoitt_bin_mapping, get_key
 from addr_city import update_city
 from building import building_key_mapping, building_mapping
+from roof_material import roof_material_mapping
+from building_material import building_material_mapping
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -91,6 +93,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'building':
                 key = get_key(value, key, building_key_mapping)
                 node_tags['value'] = clean_with_mapping(value, building_mapping)
+            elif key == 'roof:material':
+                node_tags['value'] = clean_with_mapping(value, roof_material_mapping)
+            elif key == 'building:material':
+                node_tags['value'] = clean_with_mapping(value, building_material_mapping)
             else:
                 node_tags['value'] = value
             
@@ -137,6 +143,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'building':
                 key = get_key(value, key, building_key_mapping)
                 way_tags['value'] = clean_with_mapping(value, building_mapping)
+            elif key == 'roof:material':
+                way_tags['value'] = clean_with_mapping(value, roof_material_mapping)
+            elif key == 'building:material':
+                way_tags['value'] = clean_with_mapping(value, building_material_mapping)
             else:
                 way_tags['value'] = value
 
@@ -192,6 +202,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'building':
                 key = get_key(value, key, building_key_mapping)
                 rel_tags['value'] = clean_with_mapping(value, building_mapping)
+            elif key == 'roof:material':
+                rel_tags['value'] = clean_with_mapping(value, roof_material_mapping)
+            elif key == 'building:material':
+                rel_tags['value'] = clean_with_mapping(value, building_material_mapping)
             else:
                 rel_tags['value'] = value
             

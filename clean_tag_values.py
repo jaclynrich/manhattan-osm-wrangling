@@ -6,8 +6,9 @@ Created on Tue Nov  7 22:44:27 2017
 @author: Jackie
 """
 
-from auditing import get_unexpected_counts, get_non_numeric_counts
+from auditing import get_unexpected_counts, get_non_numeric
 from pprint import pprint
+import re
 
 file = 'lower_manhattan.osm.xml'
 
@@ -38,3 +39,9 @@ for c in colours:
 #%% oneway - already clean
 oneway = ['yes', 'no', '-1', 'reversible', 'alternating']
 pprint(get_unexpected_counts(file, 'oneway', oneway))
+
+#%% maxspeeed
+speeds = get_unexpected_counts(file, 'maxspeed', [])    
+for speed in speeds:
+    if not re.match('^\d+ mph$', speed):
+        print(speed)
