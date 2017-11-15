@@ -25,6 +25,7 @@ from highway import highway_mapping
 from capacity import capacity_key_mapping, capacity_mapping
 from amenity import amenity_key_mapping, amenity_mapping
 from leisure import leisure_key_mapping
+from shop import shop_key_mapping, shop_mapping
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -113,6 +114,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = clean_with_mapping(value, building_part_mapping)
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
+            elif key == 'shop':
+                key = get_key(value, key, shop_key_mapping)
+                node_tags['value'] = clean_with_mapping(value, shop_mapping)
             else:
                 node_tags['value'] = value
             
@@ -123,7 +127,16 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 continue
             else:
                 tags.append(node_tags)
-        
+            
+            # Additional key and values to append
+            node_tags = {}
+            id_num = element.attrib['id']
+            if id_num == '3056978842':
+                node_tags['id'] = id_num
+                node_tags['key'] = 'books'
+                node_tags['value'] = 'comic'
+            tags.append(node_tags)
+            
         return {'node': node_attribs, 'node_tags': tags}
 
     elif element.tag == 'way':
@@ -175,6 +188,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = clean_with_mapping(value, building_part_mapping)
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
+            elif key == 'shop':
+                key = get_key(value, key, shop_key_mapping)
+                way_tags['value'] = clean_with_mapping(value, shop_mapping)
             else:
                 way_tags['value'] = value
 
@@ -246,6 +262,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = clean_with_mapping(value, building_part_mapping)
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
+            elif key == 'shop':
+                key = get_key(value, key, shop_key_mapping)
+                rel_tags['value'] = clean_with_mapping(value, shop_mapping)
             else:
                 rel_tags['value'] = value
             
