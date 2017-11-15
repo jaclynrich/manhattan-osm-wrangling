@@ -27,6 +27,7 @@ from capacity import capacity_key_mapping, capacity_mapping
 from amenity import amenity_key_mapping, amenity_mapping
 from leisure import leisure_key_mapping
 from shop import shop_key_mapping, shop_mapping
+from phone import update_phone
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -120,6 +121,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = clean_w_map(value, shop_mapping)
             elif key == 'building:levels':
                 node_tags['value'] = clean_w_map(value, building_levels_mapping)
+            elif key == 'phone':
+                node_tags['value'] = update_phone(value)
             else:
                 node_tags['value'] = value
             
@@ -194,6 +197,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
                 way_tags['value'] = clean_w_map(value, shop_mapping)
+            elif key == 'phone':
+                way_tags['value'] = update_phone(value)
             else:
                 way_tags['value'] = value
 
@@ -268,6 +273,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
                 rel_tags['value'] = clean_w_map(value, shop_mapping)
+            elif key == 'phone':
+                rel_tags['value'] = update_phone(value)
             else:
                 rel_tags['value'] = value
             
