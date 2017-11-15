@@ -13,7 +13,8 @@ file = 'lower_manhattan.osm.xml'
 
 # Feet were converted to meters
 # values that need to have their key reassigned and the correct key
-capacity_key_mapping = {'Mon-Sun 17:00–23:00 Mon-Fri 12:00–15:30': 'opening_hours'}
+capacity_key_mapping = {'Mon-Sun 17:00–23:00 Mon-Fri 12:00–15:30': \
+                        'opening_hours'}
 
 capacity_mapping = {'56 seats': '56',
                     'Mon-Sun 17:00–23:00 Mon-Fri 12:00–15:30': \
