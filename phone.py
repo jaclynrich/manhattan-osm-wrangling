@@ -19,6 +19,8 @@ def is_valid_phone(phone):
     else:
         return False
 
+# Use this to clean all phone number tag fields:
+# contact:phone, Phone, phone_1, phone:emergency, fax, contact:fax
 def update_phone(phone):
     """Returns the cleaned version of the phone number, and only returns
     the first phone number listed"""
@@ -46,7 +48,3 @@ def update_phone(phone):
 
 if __name__ == '__main__':
     pprint(get_unexpected_counts(file, 'phone', []))
-    
-    
-    
-    

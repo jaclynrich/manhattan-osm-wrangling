@@ -123,6 +123,18 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = clean_w_map(value, building_levels_mapping)
             elif key == 'phone':
                 node_tags['value'] = update_phone(value)
+            elif key == 'Phone':
+                node_tags['value'] = update_phone(value)
+            elif key == 'phone_1':
+                node_tags['value'] = update_phone(value)
+            elif key == 'contact:phone':
+                node_tags['value'] = update_phone(value)
+            elif key == 'phone:emergency':
+                node_tags['value'] = update_phone(value)
+            elif key == 'fax':
+                node_tags['value'] = update_phone(value)
+            elif key == 'contact:fax':
+                node_tags['value'] = update_phone(value)
             else:
                 node_tags['value'] = value
             
@@ -199,6 +211,18 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = clean_w_map(value, shop_mapping)
             elif key == 'phone':
                 way_tags['value'] = update_phone(value)
+            elif key == 'Phone':
+                way_tags['value'] = update_phone(value)
+            elif key == 'phone_1':
+                way_tags['value'] = update_phone(value)
+            elif key == 'contact:phone':
+                way_tags['value'] = update_phone(value)
+            elif key == 'phone:emergency':
+                way_tags['value'] = update_phone(value)
+            elif key == 'fax':
+                way_tags['value'] = update_phone(value)
+            elif key == 'contact:fax':
+                way_tags['value'] = update_phone(value)
             else:
                 way_tags['value'] = value
 
@@ -274,6 +298,18 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 key = get_key(value, key, shop_key_mapping)
                 rel_tags['value'] = clean_w_map(value, shop_mapping)
             elif key == 'phone':
+                rel_tags['value'] = update_phone(value)
+            elif key == 'Phone':
+                rel_tags['value'] = update_phone(value)
+            elif key == 'phone_1':
+                rel_tags['value'] = update_phone(value)
+            elif key == 'contact:phone':
+                rel_tags['value'] = update_phone(value)
+            elif key == 'phone:emergency':
+                rel_tags['value'] = update_phone(value)
+            elif key == 'fax':
+                rel_tags['value'] = update_phone(value)
+            elif key == 'contact:fax':
                 rel_tags['value'] = update_phone(value)
             else:
                 rel_tags['value'] = value
