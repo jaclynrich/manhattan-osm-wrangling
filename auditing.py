@@ -34,9 +34,9 @@ def get_unexpected_counts(filename, key, valid_list):
     attrib_counts = {}
     for _, elem in ET.iterparse(filename, events=('start',)):
         if elem.tag == 'tag':
-            if elem.attrib['k'] == key and elem.attrib['v'] not in valid_list:
-                attrib_counts[elem.attrib['v']] = attrib_counts.get \
-                    (elem.attrib['v'], 0) + 1
+            value = elem.attrib['v'].strip()
+            if elem.attrib['k'] == key and value not in valid_list:
+                attrib_counts[value] = attrib_counts.get(value, 0) + 1
     return attrib_counts
 
 def get_non_numeric(filename, key):
