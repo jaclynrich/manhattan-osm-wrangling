@@ -30,6 +30,8 @@ from shop import shop_key_mapping, shop_mapping
 from phone import update_phone
 from street import update_street, get_additional_tags
 from addr_place import addr_place_key_mapping, addr_place_mapping
+from addr_floor import addr_floor_mapping
+from addr_unit import change_addr_unit_key, update_addr_unit
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -143,6 +145,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:place':
                 key = get_key(value, key, addr_place_key_mapping)
                 node_tags['value'] = clean_w_map(value, addr_place_mapping)
+            elif key == 'addr:floor':
+                node_tags['value'] = clean_w_map(value, addr_floor_mapping)
+            elif key == 'addr:unit':
+                key = change_addr_unit_key(value)
+                node_tags['value'] = update_addr_unit(value)
             else:
                 node_tags['value'] = value
             
@@ -251,6 +258,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:place':
                 key = get_key(value, key, addr_place_key_mapping)
                 way_tags['value'] = clean_w_map(value, addr_place_mapping)
+            elif key == 'addr:unit':
+                key = change_addr_unit_key(value)
+                way_tags['value'] = update_addr_unit(value)
             else:
                 way_tags['value'] = value
 
@@ -354,6 +364,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:place':
                 key = get_key(value, key, addr_place_key_mapping)
                 rel_tags['value'] = clean_w_map(value, addr_place_mapping)
+            elif key == 'addr:unit':
+                key = change_addr_unit_key(value)
+                way_tags['value'] = update_addr_unit(value)
             else:
                 rel_tags['value'] = value
             

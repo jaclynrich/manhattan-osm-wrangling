@@ -54,3 +54,9 @@ pprint(get_non_numeric(file, 'addr:level'))
 
 #%% addr:door
 pprint(get_non_numeric(file, 'addr:door'))
+
+#%% addr:interpolation
+pprint(get_non_numeric(file, 'addr:interpolation'))
+
+#%% delivery
+pprint(get_unexpected_counts(file, 'delivery', ['no', 'yes']))
