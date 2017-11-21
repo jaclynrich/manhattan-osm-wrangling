@@ -60,3 +60,9 @@ pprint(get_non_numeric(file, 'addr:interpolation'))
 
 #%% delivery
 pprint(get_unexpected_counts(file, 'delivery', ['no', 'yes']))
+
+#%% addr:suburb
+pprint(get_unexpected_counts(file, 'addr:suburb', []))
+
+#%% postal_code
+pprint(get_unexpected_counts(file, 'postal_code', []))
