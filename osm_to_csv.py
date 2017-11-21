@@ -28,6 +28,7 @@ from amenity import amenity_key_mapping, amenity_mapping
 from leisure import leisure_key_mapping
 from shop import shop_key_mapping, shop_mapping
 from phone import update_phone
+from street import update_street, get_additional_tags
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -135,6 +136,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = update_phone(value)
             elif key == 'contact:fax':
                 node_tags['value'] = update_phone(value)
+            elif key == 'addr:street':
+                node_tags['value'] = update_street(value)
+                addtl_tags = get_additional_tags(value)
             else:
                 node_tags['value'] = value
             
@@ -146,14 +150,28 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             else:
                 tags.append(node_tags)
             
-            # Additional key and values to append
+            # Specific additional key and values to append
             node_tags = {}
             id_num = element.attrib['id']
             if id_num == '3056978842':
                 node_tags['id'] = id_num
                 node_tags['key'] = 'books'
                 node_tags['value'] = 'comic'
-            tags.append(node_tags)
+            
+            # Additional key and values to append            
+            for key, val in addtl_tags.items():
+                addtl_tag = {}
+                addtl_tag['id'] = id_num
+                addtl_tag['key'] = key
+                addtl_tag['value'] = value
+                if value is not None:
+                    tags.append(addtl_tag)
+            
+            # Skip any values that are None
+            if node_tags['value'] == None:
+                continue
+            else:
+                tags.append(node_tags)
             
         return {'node': node_attribs, 'node_tags': tags}
 
@@ -223,11 +241,23 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = update_phone(value)
             elif key == 'contact:fax':
                 way_tags['value'] = update_phone(value)
+            elif key == 'addr:street':
+                way_tags['value'] = update_street(value)
+                addtl_tags = get_additional_tags(value)
             else:
                 way_tags['value'] = value
 
             way_tags['key'] = key 
            
+            # Additional key and values to append            
+            for key, val in addtl_tags.items():
+                addtl_tag = {}
+                addtl_tag['id'] = id_num
+                addtl_tag['key'] = key
+                addtl_tag['value'] = value
+                if value is not None:
+                    tags.append(addtl_tag)
+            
             # Skip any values that are None
             if way_tags['value'] == None:
                 continue
@@ -311,10 +341,22 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = update_phone(value)
             elif key == 'contact:fax':
                 rel_tags['value'] = update_phone(value)
+            elif key == 'addr:street':
+                rel_tags['value'] = update_street(value)
+                addtl_tags = get_additional_tags(value)
             else:
                 rel_tags['value'] = value
             
             rel_tags['key'] = key
+            
+            # Additional key and values to append            
+            for key, val in addtl_tags.items():
+                addtl_tag = {}
+                addtl_tag['id'] = id_num
+                addtl_tag['key'] = key
+                addtl_tag['value'] = value
+                if value is not None:
+                    tags.append(addtl_tag)
             
             # Skip any values that are None
             if rel_tags['value'] == None:
