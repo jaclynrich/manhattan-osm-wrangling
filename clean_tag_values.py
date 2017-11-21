@@ -45,3 +45,12 @@ speeds = get_unexpected_counts(file, 'maxspeed', [])
 for speed in speeds:
     if not re.match('^\d+ mph$', speed):
         print(speed)
+
+#%% addr:suite
+pprint(get_non_numeric(file, 'addr:suite'))
+
+#%% addr:level
+pprint(get_non_numeric(file, 'addr:level'))
+
+#%% addr:door
+pprint(get_non_numeric(file, 'addr:door'))
