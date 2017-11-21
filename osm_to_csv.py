@@ -156,6 +156,12 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'building:level':
                 key = 'building:levels'
                 node_tags['value'] = value
+            elif key == 'levels':
+                key = 'level'
+                node_tags['value'] = value
+            elif key == 'addr:level':
+                key = 'addr:floor'
+                node_tags['value'] = value
             else:
                 node_tags['value'] = value
             
@@ -272,6 +278,12 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'building:level':
                 key = 'building:levels'
                 way_tags['value'] = value
+            elif key == 'levels':
+                key = 'level'
+                way_tags['value'] = value
+            elif key == 'addr:level':
+                key = 'addr:floor'
+                way_tags['value'] = value
             else:
                 way_tags['value'] = value
 
@@ -382,6 +394,12 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = update_addr_district(value)
             elif key == 'building:level':
                 key = 'building:levels'
+                rel_tags['value'] = value
+            elif key == 'levels':
+                key = 'level'
+                rel_tags['value'] = value
+            elif key == 'addr:level':
+                key = 'addr:floor'
                 rel_tags['value'] = value
             else:
                 rel_tags['value'] = value

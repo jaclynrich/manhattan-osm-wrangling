@@ -49,9 +49,6 @@ for speed in speeds:
 #%% addr:suite
 pprint(get_non_numeric(file, 'addr:suite'))
 
-#%% addr:level
-pprint(get_non_numeric(file, 'addr:level'))
-
 #%% addr:door
 pprint(get_non_numeric(file, 'addr:door'))
 
@@ -66,3 +63,6 @@ pprint(get_unexpected_counts(file, 'addr:suburb', []))
 
 #%% postal_code
 pprint(get_unexpected_counts(file, 'postal_code', []))
+
+#%% level
+pprint(get_non_numeric(file, 'level'))
