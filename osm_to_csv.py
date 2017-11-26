@@ -28,7 +28,7 @@ from amenity import amenity_key_mapping, amenity_mapping
 from leisure import leisure_key_mapping
 from shop import shop_key_mapping, shop_mapping
 from phone import update_phone
-from street import update_street, get_additional_tags
+from addr_street import update_street, get_additional_tags
 from addr_place import addr_place_key_mapping, addr_place_mapping
 from addr_floor import addr_floor_mapping
 from addr_unit import change_addr_unit_key, update_addr_unit
@@ -85,6 +85,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             key = tag.attrib['k']
             value = tag.attrib['v']
+            addtl_tags = {}
             
             if key == 'addr:postcode':
                 node_tags['value'] = update_postcode(value)
@@ -164,15 +165,26 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = value
             else:
                 node_tags['value'] = value
+            #######
+            """
+            elif key == 'cuisine':
+                key = change_addr_unit_key(value)
+                if key == 'cuisine': 
+                    node_tags['value'] = update_addr_unit(value)
+                else:
+                    node_tags['value'] = value
+            """
+
             
             node_tags['key'] = key
             
             # Skip any values that are None
-            if node_tags['value'] == None:
+            if node_tags.get('value') is None:
                 continue
             else:
                 tags.append(node_tags)
             
+            """
             # Specific additional key and values to append
             node_tags = {}
             id_num = element.attrib['id']
@@ -180,21 +192,16 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['id'] = id_num
                 node_tags['key'] = 'books'
                 node_tags['value'] = 'comic'
+            """
             
-            # Additional key and values to append            
+            # Additional key and values to append         
             for key, val in addtl_tags.items():
                 addtl_tag = {}
-                addtl_tag['id'] = id_num
+                addtl_tag['id'] = element.attrib['id']
                 addtl_tag['key'] = key
                 addtl_tag['value'] = value
                 if value is not None:
                     tags.append(addtl_tag)
-            
-            # Skip any values that are None
-            if node_tags['value'] == None:
-                continue
-            else:
-                tags.append(node_tags)
             
         return {'node': node_attribs, 'node_tags': tags}
 
@@ -211,6 +218,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             key = tag.attrib['k']
             value = tag.attrib['v']
+            addtl_tags = {}
             
             if key == 'addr:postcode':
                 way_tags['value'] = update_postcode(value)
@@ -289,20 +297,20 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
 
             way_tags['key'] = key 
            
+            # Skip any values that are None
+            if way_tags.get('value') is None:
+                continue
+            else:
+                tags.append(way_tags)
+            
             # Additional key and values to append            
             for key, val in addtl_tags.items():
                 addtl_tag = {}
-                addtl_tag['id'] = id_num
+                addtl_tag['id'] = element.attrib['id']
                 addtl_tag['key'] = key
                 addtl_tag['value'] = value
                 if value is not None:
                     tags.append(addtl_tag)
-            
-            # Skip any values that are None
-            if way_tags['value'] == None:
-                continue
-            else:
-                tags.append(way_tags)
 
         i = 0
         for nd in element.iter('nd'):
@@ -328,6 +336,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             key = tag.attrib['k']
             value = tag.attrib['v']
+            addtl_tags = {}
             
             if key == 'addr:postcode':
                 rel_tags['value'] = update_postcode(value)
@@ -406,20 +415,21 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             rel_tags['key'] = key
             
+            # Skip any values that are None
+            if rel_tags.get('value') == None:
+                continue
+            else:
+                tags.append(rel_tags)
+            
             # Additional key and values to append            
             for key, val in addtl_tags.items():
                 addtl_tag = {}
-                addtl_tag['id'] = id_num
+                addtl_tag['id'] = element.attrib['id']
                 addtl_tag['key'] = key
                 addtl_tag['value'] = value
                 if value is not None:
                     tags.append(addtl_tag)
-            
-            # Skip any values that are None
-            if rel_tags['value'] == None:
-                continue
-            else:
-                tags.append(rel_tags)
+                    
 
         i = 0
         for mem in element.iter('member'):
