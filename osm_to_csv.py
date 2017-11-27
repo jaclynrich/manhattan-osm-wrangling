@@ -188,11 +188,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             else:
                 tags.append(node_tags)
             
-            # Remove any duplicate tags that may have been added from
-            # the addtl_tags
-            #print(tags)
-            
-        return {'node': node_attribs, 'node_tags': tags}
+        # Make sure that there are no duplicates in tags
+        unique_tags = [i for n, i in enumerate(tags) if i not in tags[n + 1:]]
+        
+        return {'node': node_attribs, 'node_tags': unique_tags}
 
     elif element.tag == 'way':
         for attrib in way_attr_fields:
@@ -315,7 +314,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             way_nodes.append(way_nd_dict)
             i += 1
 
-        return {'way': way_attribs, 'way_nodes': way_nodes, 'way_tags': tags}
+        # Make sure that there are no duplicates in tags
+        unique_tags = [i for n, i in enumerate(tags) if i not in tags[n + 1:]]
+
+        return {'way': way_attribs, 'way_nodes': way_nodes, 'way_tags': \
+                unique_tags}
     
     elif element.tag == 'relation': 
         for attrib in rel_attr_fields:
@@ -434,12 +437,16 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             rel_mem_dict['id'] = element.attrib['id']
             rel_mem_dict['type'] = mem.attrib['type']
             rel_mem_dict['node_id'] = mem.attrib['ref']
+            
             rel_mem_dict['role'] = mem.attrib['role']
             rel_mem_dict['position'] = i
             rel_members.append(rel_mem_dict)
             i += 1
+        
+        # Make sure that there are no duplicates in tags
+        unique_tags = [i for n, i in enumerate(tags) if i not in tags[n + 1:]]
 
-        return {'relation': rel_attribs, 'relation_tags': tags, 
+        return {'relation': rel_attribs, 'relation_tags': unique_tags, 
                 'relation_members': rel_members}
 
 #%%
