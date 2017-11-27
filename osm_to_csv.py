@@ -33,6 +33,7 @@ from addr_place import addr_place_key_mapping, addr_place_mapping
 from addr_floor import addr_floor_mapping
 from addr_unit import change_addr_unit_key, update_addr_unit
 from addr_district import update_addr_district
+from cuisine import update_cuisine
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -85,7 +86,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             key = tag.attrib['k']
             value = tag.attrib['v']
-            addtl_tags = {}
+            addtl_tags = []
             
             if key == 'addr:postcode':
                 node_tags['value'] = update_postcode(value)
@@ -143,7 +144,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = update_phone(value)
             elif key == 'addr:street':
                 node_tags['value'] = update_street(value)
-                addtl_tags = get_additional_tags(value)
+                addtl_tags.append(get_additional_tags(value))
             elif key == 'addr:place':
                 key = get_key(value, key, addr_place_key_mapping)
                 node_tags['value'] = clean_w_map(value, addr_place_mapping)
@@ -163,27 +164,14 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:level':
                 key = 'addr:floor'
                 node_tags['value'] = value
+            elif key == 'cuisine':
+                addtl_tags.extend(update_cuisine(value))
             else:
                 node_tags['value'] = value
-            #######
-            """
-            elif key == 'cuisine':
-                key = change_addr_unit_key(value)
-                if key == 'cuisine': 
-                    node_tags['value'] = update_addr_unit(value)
-                else:
-                    node_tags['value'] = value
-            """
-
             
             node_tags['key'] = key
             
-            # Skip any values that are None
-            if node_tags.get('value') is None:
-                continue
-            else:
-                tags.append(node_tags)
-            
+
             """
             # Specific additional key and values to append
             node_tags = {}
@@ -194,14 +182,25 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = 'comic'
             """
             
-            # Additional key and values to append         
-            for key, val in addtl_tags.items():
-                addtl_tag = {}
-                addtl_tag['id'] = element.attrib['id']
-                addtl_tag['key'] = key
-                addtl_tag['value'] = value
-                if value is not None:
-                    tags.append(addtl_tag)
+            # Additional key and values to append
+            for t in addtl_tags:
+                for key, val in t.items():
+                    addtl_tag = {}
+                    addtl_tag['id'] = element.attrib['id']
+                    addtl_tag['key'] = key
+                    addtl_tag['value'] = val
+                    if val is not None:
+                        tags.append(addtl_tag)
+            
+            # Skip any values that are None
+            if node_tags.get('value') is None:
+                continue
+            else:
+                tags.append(node_tags)
+            
+            # Remove any duplicate tags that may have been added from
+            # the addtl_tags
+            #print(tags)
             
         return {'node': node_attribs, 'node_tags': tags}
 
@@ -218,7 +217,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             key = tag.attrib['k']
             value = tag.attrib['v']
-            addtl_tags = {}
+            addtl_tags = []
             
             if key == 'addr:postcode':
                 way_tags['value'] = update_postcode(value)
@@ -274,7 +273,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = update_phone(value)
             elif key == 'addr:street':
                 way_tags['value'] = update_street(value)
-                addtl_tags = get_additional_tags(value)
+                addtl_tags.append(get_additional_tags(value))
             elif key == 'addr:place':
                 key = get_key(value, key, addr_place_key_mapping)
                 way_tags['value'] = clean_w_map(value, addr_place_mapping)
@@ -292,25 +291,29 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:level':
                 key = 'addr:floor'
                 way_tags['value'] = value
+            elif key == 'cuisine':
+                addtl_tags.extend(update_cuisine(value))
             else:
                 way_tags['value'] = value
 
-            way_tags['key'] = key 
+            way_tags['key'] = key
+            
+            
+            # Additional key and values to append
+            for t in addtl_tags:
+                for key, val in t.items():
+                    addtl_tag = {}
+                    addtl_tag['id'] = element.attrib['id']
+                    addtl_tag['key'] = key
+                    addtl_tag['value'] = val
+                    if val is not None:
+                        tags.append(addtl_tag)
            
             # Skip any values that are None
             if way_tags.get('value') is None:
                 continue
             else:
                 tags.append(way_tags)
-            
-            # Additional key and values to append            
-            for key, val in addtl_tags.items():
-                addtl_tag = {}
-                addtl_tag['id'] = element.attrib['id']
-                addtl_tag['key'] = key
-                addtl_tag['value'] = value
-                if value is not None:
-                    tags.append(addtl_tag)
 
         i = 0
         for nd in element.iter('nd'):
@@ -336,7 +339,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             key = tag.attrib['k']
             value = tag.attrib['v']
-            addtl_tags = {}
+            addtl_tags = []
             
             if key == 'addr:postcode':
                 rel_tags['value'] = update_postcode(value)
@@ -392,7 +395,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = update_phone(value)
             elif key == 'addr:street':
                 rel_tags['value'] = update_street(value)
-                addtl_tags = get_additional_tags(value)
+                addtl_tags.append(get_additional_tags(value))
             elif key == 'addr:place':
                 key = get_key(value, key, addr_place_key_mapping)
                 rel_tags['value'] = clean_w_map(value, addr_place_mapping)
@@ -410,26 +413,28 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:level':
                 key = 'addr:floor'
                 rel_tags['value'] = value
+            elif key == 'cuisine':
+                addtl_tags.extend(update_cuisine(value))
             else:
                 rel_tags['value'] = value
             
             rel_tags['key'] = key
+            
+            # Additional key and values to append
+            for t in addtl_tags:
+                for key, val in t.items():
+                    addtl_tag = {}
+                    addtl_tag['id'] = element.attrib['id']
+                    addtl_tag['key'] = key
+                    addtl_tag['value'] = val
+                    if val is not None:
+                        tags.append(addtl_tag)
             
             # Skip any values that are None
             if rel_tags.get('value') == None:
                 continue
             else:
                 tags.append(rel_tags)
-            
-            # Additional key and values to append            
-            for key, val in addtl_tags.items():
-                addtl_tag = {}
-                addtl_tag['id'] = element.attrib['id']
-                addtl_tag['key'] = key
-                addtl_tag['value'] = value
-                if value is not None:
-                    tags.append(addtl_tag)
-                    
 
         i = 0
         for mem in element.iter('member'):
