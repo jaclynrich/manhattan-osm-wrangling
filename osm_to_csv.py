@@ -26,9 +26,9 @@ from highway import highway_mapping
 from capacity import capacity_key_mapping, capacity_mapping
 from amenity import amenity_key_mapping, amenity_mapping
 from leisure import leisure_key_mapping
-from shop import shop_key_mapping, shop_mapping
+from shop import shop_key_mapping, shop_mapping, get_additional_shop_tags
 from phone import update_phone
-from addr_street import update_street, get_additional_tags
+from addr_street import update_street, get_additional_street_tags
 from addr_place import addr_place_key_mapping, addr_place_mapping
 from addr_floor import addr_floor_mapping
 from addr_unit import change_addr_unit_key, update_addr_unit
@@ -126,6 +126,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
                 node_tags['value'] = clean_w_map(value, shop_mapping)
+                addtl_tags.append(get_additional_shop_tags(value))
             elif key == 'building:levels':
                 node_tags['value'] = clean_w_map(value, building_levels_mapping)
             elif key == 'phone':
@@ -144,7 +145,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = update_phone(value)
             elif key == 'addr:street':
                 node_tags['value'] = update_street(value)
-                addtl_tags.append(get_additional_tags(value))
+                addtl_tags.append(get_additional_street_tags(value))
             elif key == 'addr:place':
                 key = get_key(value, key, addr_place_key_mapping)
                 node_tags['value'] = clean_w_map(value, addr_place_mapping)
@@ -170,17 +171,6 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = value
             
             node_tags['key'] = key
-            
-
-            """
-            # Specific additional key and values to append
-            node_tags = {}
-            id_num = element.attrib['id']
-            if id_num == '3056978842':
-                node_tags['id'] = id_num
-                node_tags['key'] = 'books'
-                node_tags['value'] = 'comic'
-            """
             
             # Additional key and values to append
             for t in addtl_tags:
@@ -257,6 +247,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
                 way_tags['value'] = clean_w_map(value, shop_mapping)
+                addtl_tags.append(get_additional_shop_tags(value))
             elif key == 'phone':
                 way_tags['value'] = update_phone(value)
             elif key == 'Phone':
@@ -273,7 +264,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = update_phone(value)
             elif key == 'addr:street':
                 way_tags['value'] = update_street(value)
-                addtl_tags.append(get_additional_tags(value))
+                addtl_tags.append(get_additional_street_tags(value))
             elif key == 'addr:place':
                 key = get_key(value, key, addr_place_key_mapping)
                 way_tags['value'] = clean_w_map(value, addr_place_mapping)
@@ -379,6 +370,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
                 rel_tags['value'] = clean_w_map(value, shop_mapping)
+                addtl_tags.append(get_additional_shop_tags(value))
             elif key == 'phone':
                 rel_tags['value'] = update_phone(value)
             elif key == 'Phone':
@@ -395,7 +387,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = update_phone(value)
             elif key == 'addr:street':
                 rel_tags['value'] = update_street(value)
-                addtl_tags.append(get_additional_tags(value))
+                addtl_tags.append(get_additional_street_tags(value))
             elif key == 'addr:place':
                 key = get_key(value, key, addr_place_key_mapping)
                 rel_tags['value'] = clean_w_map(value, addr_place_mapping)

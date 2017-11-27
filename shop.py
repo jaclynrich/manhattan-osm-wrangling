@@ -49,5 +49,11 @@ shop_mapping = {'Medical Center' : None,
                 'stationary': 'stationery',
                 'tax': 'tax_advisory'}
 
+def get_additional_shop_tags(shop):
+    addtl_tags = {}
+    if shop == 'comics':
+        addtl_tags['books'] = 'comic'
+    return addtl_tags
+
 if __name__ == '__main__':
     pprint(get_unexpected_counts(file, 'shop', shops))

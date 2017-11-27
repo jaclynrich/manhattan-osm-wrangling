@@ -287,7 +287,7 @@ def update_street(s):
 
 #%% Return a dictionary of the additional tags that are embedded in the street
     
-def get_additional_tags(s):
+def get_additional_street_tags(s):
     addtl_tags = {}
     if has_suite(s):
         addtl_tags['addr:suite'] = extract_suite(s)
