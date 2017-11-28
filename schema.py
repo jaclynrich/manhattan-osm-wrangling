@@ -64,7 +64,7 @@ schema = {
             }
         }
     },
-    'relations': {
+    'relation': {
         'type': 'dict',
         'schema': {
             'id': {'required': True, 'type': 'integer', 'coerce': int},

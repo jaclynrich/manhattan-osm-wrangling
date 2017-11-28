@@ -7,8 +7,7 @@ Created on Thu Nov  2 22:23:27 2017
 """
 
 from csv import DictWriter
-import codecs
-import pprint
+from pprint import pprint
 import xml.etree.cElementTree as ET
 import cerberus
 import schema
@@ -185,6 +184,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             # Skip any values that are None
             if node_tags.get('value') is None:
                 continue
+            elif node_tags.get('key') is None or node_tags.get('key') == '':
+                continue
+            elif not isinstance(node_tags.get('value'), str):
+                print(node_tags)
             else:
                 tags.append(node_tags)
             
@@ -302,6 +305,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             # Skip any values that are None
             if way_tags.get('value') is None:
                 continue
+            elif way_tags.get('key') is None or way_tags.get('key') == '':
+                continue
             else:
                 tags.append(way_tags)
 
@@ -411,7 +416,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'cuisine':
                 addtl_tags.extend(update_cuisine(value))
             else:
-                rel_tags['value'] = value
+                rel_tags['value'] = str(value)
             
             rel_tags['key'] = key
             
@@ -427,6 +432,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             # Skip any values that are None
             if rel_tags.get('value') == None:
+                continue
+            elif rel_tags.get('key') is None or rel_tags.get('key') == '':
                 continue
             else:
                 tags.append(rel_tags)
@@ -465,25 +472,21 @@ def get_element(osm_file, tags=('node', 'way', 'relation')):
 def validate_element(element, validator, schema=SCHEMA):
     """Raise ValidationError if element does not match schema"""
     if validator.validate(element, schema) is not True:
-        field, errors = next(validator.errors.iteritems())
-        message_string = "\nElement of type '{0}' has the following errors:\n{1}"
-        error_string = pprint.pformat(errors)
-        
-        raise Exception(message_string.format(field, error_string))
-
+        print(validator.errors)
+        pprint(element)
 
 # Main function
 def process_map(file_in, validate):
     """Iteratively process each XML element and write to csvs"""
     
-    with codecs.open(NODES_PATH, 'w') as nodes_file, \
-         codecs.open(NODE_TAGS_PATH, 'w') as nodes_tags_file, \
-         codecs.open(WAYS_PATH, 'w') as ways_file, \
-         codecs.open(WAY_NODES_PATH, 'w') as way_nodes_file, \
-         codecs.open(WAY_TAGS_PATH, 'w') as way_tags_file, \
-         codecs.open(RELATIONS_PATH, 'w') as relations_file, \
-         codecs.open(RELATION_TAGS_PATH, 'w') as rel_tags_file, \
-         codecs.open(RELATION_MEMBERS_PATH, 'w') as rel_members_file:
+    with open(NODES_PATH, 'w') as nodes_file, \
+         open(NODE_TAGS_PATH, 'w') as nodes_tags_file, \
+         open(WAYS_PATH, 'w') as ways_file, \
+         open(WAY_NODES_PATH, 'w') as way_nodes_file, \
+         open(WAY_TAGS_PATH, 'w') as way_tags_file, \
+         open(RELATIONS_PATH, 'w') as relations_file, \
+         open(RELATION_TAGS_PATH, 'w') as rel_tags_file, \
+         open(RELATION_MEMBERS_PATH, 'w') as rel_members_file:
              
              nodes_writer = DictWriter(nodes_file, fieldnames=NODE_FIELDS)
              node_tags_writer = DictWriter(nodes_tags_file, \

@@ -156,7 +156,7 @@ def has_postcode(s):
         return False
 
 def extract_postcode(s):
-    return re.findall('(\d{5})', s) # gets five digits in a row
+    return re.findall('(\d{5})', s)[0] # gets five digits in a row
 
 def remove_postcode(s):
     #if has_postcode(s):
