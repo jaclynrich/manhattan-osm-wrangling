@@ -42,8 +42,8 @@ WAYS_PATH = 'output/ways.csv'
 WAY_NODES_PATH = 'output/ways_nodes.csv'
 WAY_TAGS_PATH = 'output/ways_tags.csv'
 RELATIONS_PATH = 'output/relations.csv'
-RELATION_TAGS_PATH = 'output/relation_tags.csv'
-RELATION_MEMBERS_PATH = 'output/relation_members.csv'
+RELATION_TAGS_PATH = 'output/relations_tags.csv'
+RELATION_MEMBERS_PATH = 'output/relations_members.csv'
 
 SCHEMA = schema.schema
 
