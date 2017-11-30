@@ -36,14 +36,14 @@ from cuisine import update_cuisine
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
-NODES_PATH = 'output/nodes.csv'
-NODE_TAGS_PATH = 'output/nodes_tags.csv'
-WAYS_PATH = 'output/ways.csv'
-WAY_NODES_PATH = 'output/ways_nodes.csv'
-WAY_TAGS_PATH = 'output/ways_tags.csv'
-RELATIONS_PATH = 'output/relations.csv'
-RELATION_TAGS_PATH = 'output/relations_tags.csv'
-RELATION_MEMBERS_PATH = 'output/relations_members.csv'
+NODES_PATH = 'output_and_report/nodes.csv'
+NODE_TAGS_PATH = 'output_and_report/nodes_tags.csv'
+WAYS_PATH = 'output_and_report/ways.csv'
+WAY_NODES_PATH = 'output_and_report/ways_nodes.csv'
+WAY_TAGS_PATH = 'output_and_report/ways_tags.csv'
+RELATIONS_PATH = 'output_and_report/relations.csv'
+RELATION_TAGS_PATH = 'output_and_report/relations_tags.csv'
+RELATION_MEMBERS_PATH = 'output_and_report/relations_members.csv'
 
 SCHEMA = schema.schema
 

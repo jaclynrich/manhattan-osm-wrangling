@@ -11,7 +11,6 @@ import csv
 from pprint import pprint
 
 sqlite_file = 'osm.db'
-
 conn = sqlite3.connect(sqlite_file)
 cur = conn.cursor()
 
