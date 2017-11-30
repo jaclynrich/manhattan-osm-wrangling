@@ -131,8 +131,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'phone':
                 node_tags['value'] = update_phone(value)
             elif key == 'Phone':
+                key == 'phone'
                 node_tags['value'] = update_phone(value)
             elif key == 'phone_1':
+                key == 'phone'
                 node_tags['value'] = update_phone(value)
             elif key == 'contact:phone':
                 node_tags['value'] = update_phone(value)
@@ -253,8 +255,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'phone':
                 way_tags['value'] = update_phone(value)
             elif key == 'Phone':
+                key = 'phone'
                 way_tags['value'] = update_phone(value)
             elif key == 'phone_1':
+                key = 'phone'
                 way_tags['value'] = update_phone(value)
             elif key == 'contact:phone':
                 way_tags['value'] = update_phone(value)
@@ -382,8 +386,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'phone':
                 rel_tags['value'] = update_phone(value)
             elif key == 'Phone':
+                key = 'phone'
                 rel_tags['value'] = update_phone(value)
             elif key == 'phone_1':
+                key = 'phone'
                 rel_tags['value'] = update_phone(value)
             elif key == 'contact:phone':
                 rel_tags['value'] = update_phone(value)
