@@ -166,7 +166,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:level':
                 key = 'addr:floor'
                 node_tags['value'] = value
-            elif key == 'cuisine':
+            elif key == 'cuisine' or key == 'cuisine_1':
                 addtl_tags.extend(update_cuisine(value))
             else:
                 node_tags['value'] = value

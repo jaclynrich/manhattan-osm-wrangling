@@ -46,8 +46,9 @@ official_cuisines.extend(acceptable)
 #%% Mapping and updating
 
 # Full sequence values that mapped initially with no other subsequent mapping
-full_mapping = {'italian coffee, breads, lite meals': 
-    ['italian', 'coffee_shop']}
+full_mapping = {'italian coffee, breads, lite meals': ['italian', 'coffee_shop']}
+
+fix_spacing_mapping = {'wine bar': 'wine_bar'}
 
 # cuisine values that need to be mapped to a different key and possibly value
 cuisine_key_mapping = {'pub': {'amenity': 'pub'},
@@ -114,6 +115,9 @@ def update_cuisine(cuisine):
             full_cuisines.append({'cuisine': val})
         return full_cuisines
     
+    if cuisine in fix_spacing_mapping:
+        cuisine = fix_spacing_mapping[cuisine]
+    
     # Split each cuisine, and for each cuisine find the mapping in the 
     # appropriate dictionary and append it to full_cuisines list
     res = re.split('\W+', cuisine)
@@ -134,6 +138,7 @@ def update_cuisine(cuisine):
 
 #%%
 if __name__ == '__main__':
+    pprint(get_unexpected_counts(file, 'cuisine_1', official_cuisines))
     cuisines = get_unexpected_counts(file, 'cuisine', official_cuisines)
 
     lower_c = {}
