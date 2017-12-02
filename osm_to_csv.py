@@ -89,6 +89,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             if key == 'addr:postcode':
                 node_tags['value'] = update_postcode(value)
+            elif key == 'postal_code':
+                key == 'addr:postcode'
             elif key == 'height':
                 node_tags['value'] = clean_w_map(value, height_mapping)
             elif key == 'min_height':
@@ -215,6 +217,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             if key == 'addr:postcode':
                 way_tags['value'] = update_postcode(value)
+            elif key == 'postal_code':
+                key == 'addr:postcode'
             elif key == 'height':
                 way_tags['value'] = clean_w_map(value, height_mapping)
             elif key == 'min_height':
@@ -346,6 +350,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             
             if key == 'addr:postcode':
                 rel_tags['value'] = update_postcode(value)
+            elif key == 'postal_code':
+                key == 'addr:postcode'
             elif key == 'height':
                 rel_tags['value'] = clean_w_map(value, height_mapping)
             elif key == 'min_height':
