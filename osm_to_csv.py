@@ -31,7 +31,6 @@ from addr_street import update_street, get_additional_street_tags
 from addr_place import addr_place_key_mapping, addr_place_mapping
 from addr_floor import addr_floor_mapping
 from addr_unit import change_addr_unit_key, update_addr_unit
-from addr_district import update_addr_district
 from cuisine import update_cuisine
 
 OSM_PATH = 'lower_manhattan.osm.xml'
@@ -157,8 +156,6 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:unit':
                 key = change_addr_unit_key(value)
                 node_tags['value'] = update_addr_unit(value)
-            elif key == 'addr:district':
-                node_tags['value'] = update_addr_district(value)  
             elif key == 'building:level':
                 key = 'building:levels'
                 node_tags['value'] = value
@@ -281,8 +278,6 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:unit':
                 key = change_addr_unit_key(value)
                 way_tags['value'] = update_addr_unit(value)
-            elif key == 'addr:district':
-                way_tags['value'] = update_addr_district(value)  
             elif key == 'building:level':
                 key = 'building:levels'
                 way_tags['value'] = value
@@ -414,8 +409,6 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:unit':
                 key = change_addr_unit_key(value)
                 rel_tags['value'] = update_addr_unit(value)
-            elif key == 'addr:district':
-                rel_tags['value'] = update_addr_district(value)
             elif key == 'building:level':
                 key = 'building:levels'
                 rel_tags['value'] = value

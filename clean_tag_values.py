@@ -61,5 +61,8 @@ pprint(get_unexpected_counts(file, 'delivery', ['no', 'yes']))
 #%% addr:suburb
 pprint(get_unexpected_counts(file, 'addr:suburb', []))
 
+#%% addr:district
+pprint(get_unexpected_counts(file, 'addr:district', []))
+
 #%% postal_code is clean, but its key needs to be changed to addr:postcode
 pprint(get_unexpected_counts(file, 'postal_code', []))
