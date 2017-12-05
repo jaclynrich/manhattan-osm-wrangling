@@ -32,6 +32,7 @@ from addr_place import addr_place_key_mapping, addr_place_mapping
 from addr_floor import addr_floor_mapping
 from addr_unit import change_addr_unit_key, update_addr_unit
 from cuisine import update_cuisine
+from addr_full import addr_full_mapping, get_additional_addr_full_tags
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -167,6 +168,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = value
             elif key == 'cuisine' or key == 'cuisine_1':
                 addtl_tags.extend(update_cuisine(value))
+            elif key == 'addr:full':
+                node_tags['value'] = clean_w_map(value, addr_full_mapping)
+                addtl_tags.extend(get_additional_addr_full_tags)
             else:
                 node_tags['value'] = value
             
@@ -289,6 +293,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = value
             elif key == 'cuisine':
                 addtl_tags.extend(update_cuisine(value))
+            elif key == 'addr:full':
+                way_tags['value'] = clean_w_map(value, addr_full_mapping)
+                addtl_tags.extend(get_additional_addr_full_tags)
             else:
                 way_tags['value'] = value
 
@@ -420,6 +427,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = value
             elif key == 'cuisine':
                 addtl_tags.extend(update_cuisine(value))
+            elif key == 'addr:full':
+                rel_tags['value'] = clean_w_map(value, addr_full_mapping)
+                addtl_tags.extend(get_additional_addr_full_tags)
             else:
                 rel_tags['value'] = str(value)
             
