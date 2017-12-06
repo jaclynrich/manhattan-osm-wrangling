@@ -175,7 +175,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 addtl_tags.extend(update_cuisine(value))
             elif key == 'addr:full':
                 node_tags['value'] = clean_w_map(value, addr_full_mapping)
-                #addtl_tags.append(get_additional_addr_full_tags(value))
+                addtl_tags.append(get_additional_addr_full_tags(value))
             elif key == 'addr:housenumber':
                 node_tags['value'] = update_addr_housenumber(value)
                 addtl_tags.append(get_additional_housenumber_tags(value)) 
@@ -317,7 +317,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 addtl_tags.extend(update_cuisine(value))
             elif key == 'addr:full':
                 way_tags['value'] = clean_w_map(value, addr_full_mapping)
-                #addtl_tags.extend(get_additional_addr_full_tags)
+                addtl_tags.append(get_additional_addr_full_tags(value))
             elif key == 'addr:housenumber':
                 way_tags['value'] = update_addr_housenumber(value)
                 addtl_tags.append(get_additional_housenumber_tags(value)) 
@@ -470,7 +470,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 addtl_tags.extend(update_cuisine(value))
             elif key == 'addr:full':
                 rel_tags['value'] = clean_w_map(value, addr_full_mapping)
-                #addtl_tags.extend(get_additional_addr_full_tags)
+                addtl_tags.append(get_additional_addr_full_tags(value))
             elif key == 'addr:housenumber':
                 rel_tags['value'] = update_addr_housenumber(value)
                 addtl_tags.append(get_additional_housenumber_tags(value)) 
