@@ -11,6 +11,7 @@ from pprint import pprint
 import xml.etree.cElementTree as ET
 import cerberus
 import schema
+import re
 
 # Cleaning functions and variables
 from addr_postcode import update_postcode
@@ -33,6 +34,8 @@ from addr_floor import addr_floor_mapping
 from addr_unit import change_addr_unit_key, update_addr_unit
 from cuisine import update_cuisine
 from addr_full import addr_full_mapping, get_additional_addr_full_tags
+from addr_housenumber import update_addr_housenumber, \
+                             get_additional_housenumber_tags
 
 OSM_PATH = 'lower_manhattan.osm.xml'
 
@@ -79,6 +82,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             else:
                 return
         
+        add_direction = {}
         for tag in element.iter('tag'):
             node_tags = {}
             node_tags['id'] = element.attrib['id']
@@ -147,7 +151,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'contact:fax':
                 node_tags['value'] = update_phone(value)
             elif key == 'addr:street':
-                node_tags['value'] = update_street(value)
+                street = update_street(value)
+                node_tags['value'] = street
                 addtl_tags.append(get_additional_street_tags(value))
             elif key == 'addr:place':
                 key = get_key(value, key, addr_place_key_mapping)
@@ -170,7 +175,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 addtl_tags.extend(update_cuisine(value))
             elif key == 'addr:full':
                 node_tags['value'] = clean_w_map(value, addr_full_mapping)
-                addtl_tags.extend(get_additional_addr_full_tags)
+                #addtl_tags.append(get_additional_addr_full_tags(value))
+            elif key == 'addr:housenumber':
+                node_tags['value'] = update_addr_housenumber(value)
+                addtl_tags.append(get_additional_housenumber_tags(value)) 
             else:
                 node_tags['value'] = value
             
@@ -180,22 +188,35 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             for t in addtl_tags:
                 for key, val in t.items():
                     addtl_tag = {}
-                    addtl_tag['id'] = element.attrib['id']
-                    addtl_tag['key'] = key
-                    addtl_tag['value'] = val
-                    if val is not None:
-                        tags.append(addtl_tag)
+                    # Add direction to dict to append to addr:street for those
+                    # with that id
+                    if key == 'direction':
+                        add_direction['id'] = element.attrib['id']
+                        add_direction['direction'] = val
+                    else:
+                        addtl_tag['id'] = element.attrib['id']
+                        addtl_tag['key'] = key
+                        addtl_tag['value'] = val
+                        if val is not None:
+                            tags.append(addtl_tag)
+            
+            if len(add_direction) > 0:
+                if node_tags['id'] == add_direction['id'] and \
+                node_tags['key'] == 'addr:street':
+                    val = node_tags['value']
+                    mat = re.match('|'.join(['East', 'West']), val)
+                    if mat is None:
+                        node_tags['value'] = add_direction['direction'] + \
+                            ' ' + val
             
             # Skip any values that are None
             if node_tags.get('value') is None:
                 continue
             elif node_tags.get('key') is None or node_tags.get('key') == '':
                 continue
-            elif not isinstance(node_tags.get('value'), str):
-                print(node_tags)
             else:
                 tags.append(node_tags)
-            
+        
         # Make sure that there are no duplicates in tags
         unique_tags = [i for n, i in enumerate(tags) if i not in tags[n + 1:]]
         
@@ -208,6 +229,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             else:
                 return
         
+        add_direction = {}
         for tag in element.iter('tag'):
             way_tags = {}
             way_tags['id'] = element.attrib['id']
@@ -295,7 +317,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 addtl_tags.extend(update_cuisine(value))
             elif key == 'addr:full':
                 way_tags['value'] = clean_w_map(value, addr_full_mapping)
-                addtl_tags.extend(get_additional_addr_full_tags)
+                #addtl_tags.extend(get_additional_addr_full_tags)
+            elif key == 'addr:housenumber':
+                way_tags['value'] = update_addr_housenumber(value)
+                addtl_tags.append(get_additional_housenumber_tags(value)) 
             else:
                 way_tags['value'] = value
 
@@ -306,11 +331,26 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             for t in addtl_tags:
                 for key, val in t.items():
                     addtl_tag = {}
-                    addtl_tag['id'] = element.attrib['id']
-                    addtl_tag['key'] = key
-                    addtl_tag['value'] = val
-                    if val is not None:
-                        tags.append(addtl_tag)
+                    # Add direction to dict to append to addr:street for those
+                    # with that id
+                    if key == 'direction':
+                        add_direction['id'] = element.attrib['id']
+                        add_direction['direction'] = val
+                    else:
+                        addtl_tag['id'] = element.attrib['id']
+                        addtl_tag['key'] = key
+                        addtl_tag['value'] = val
+                        if val is not None:
+                            tags.append(addtl_tag)
+            
+            if len(add_direction) > 0:
+                if way_tags['id'] == add_direction['id'] and \
+                way_tags['key'] == 'addr:street':
+                    val = way_tags['value']
+                    mat = re.match('|'.join(['East', 'West']), val)
+                    if mat is None:
+                        way_tags['value'] = add_direction['direction'] + \
+                            ' ' + val
            
             # Skip any values that are None
             if way_tags.get('value') is None:
@@ -334,7 +374,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
 
         return {'way': way_attribs, 'way_nodes': way_nodes, 'way_tags': \
                 unique_tags}
-    
+
     elif element.tag == 'relation': 
         for attrib in rel_attr_fields:
             if element.get(attrib):
@@ -342,6 +382,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             else:
                 return
         
+        add_direction = {}
         for tag in element.iter('tag'):
             rel_tags = {}
             rel_tags['id'] = element.attrib['id']
@@ -429,7 +470,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 addtl_tags.extend(update_cuisine(value))
             elif key == 'addr:full':
                 rel_tags['value'] = clean_w_map(value, addr_full_mapping)
-                addtl_tags.extend(get_additional_addr_full_tags)
+                #addtl_tags.extend(get_additional_addr_full_tags)
+            elif key == 'addr:housenumber':
+                rel_tags['value'] = update_addr_housenumber(value)
+                addtl_tags.append(get_additional_housenumber_tags(value)) 
             else:
                 rel_tags['value'] = str(value)
             
@@ -439,11 +483,26 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             for t in addtl_tags:
                 for key, val in t.items():
                     addtl_tag = {}
-                    addtl_tag['id'] = element.attrib['id']
-                    addtl_tag['key'] = key
-                    addtl_tag['value'] = val
-                    if val is not None:
-                        tags.append(addtl_tag)
+                    # Add direction to dict to append to addr:street for those
+                    # with that id
+                    if key == 'direction':
+                        add_direction['id'] = element.attrib['id']
+                        add_direction['direction'] = val
+                    else:
+                        addtl_tag['id'] = element.attrib['id']
+                        addtl_tag['key'] = key
+                        addtl_tag['value'] = val
+                        if val is not None:
+                            tags.append(addtl_tag)
+            
+            if len(add_direction) > 0:
+                if rel_tags['id'] == add_direction['id'] and \
+                rel_tags['key'] == 'addr:street':
+                    val = rel_tags['value']
+                    mat = re.match('|'.join(['East', 'West']), val)
+                    if mat is None:
+                        rel_tags['value'] = add_direction['direction'] + \
+                            ' ' + val
             
             # Skip any values that are None
             if rel_tags.get('value') == None:
@@ -548,7 +607,6 @@ def process_map(file_in, validate):
                          rel_members_writer.writerows(el['relation_members'])
 
 #%%                         
-
 if __name__ == '__main__':
     # Note: Validation is ~ 10X slower
     process_map(OSM_PATH, validate=False)
