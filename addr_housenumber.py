@@ -56,6 +56,7 @@ def update_addr_housenumber(no):
     if check_acceptable(no) or no is None:
         return no
     else:
+        print(no)
         # Those that do not match any of the regex have street info attached
         return no.split(' ', maxsplit=1)[0].replace(',', '')
     
@@ -93,16 +94,14 @@ def get_additional_housenumber_tags(no):
             addtl_tags['addr:floor'] = re.findall('\d+', no)[0]
         if re.search('suite [\w]+', no):
             addtl_tags['addr:suite'] = re.findall('suite ([\w]+)', no)[0]
-        if re.search('[\s]+[Ww]$', no):
+        if re.search('|'.join(['[\s]+[Ww]$', 'West$']), no):
             addtl_tags['direction'] = 'West'
-        if re.search('West$', no):
-            addtl_tags['direction'] = 'West'
-        if re.search('[\s]+[EЕ]$', no):
+        if re.search('|'.join(['[\s]+[EЕ]$', 'East']), no):
             addtl_tags['direction'] = 'East'
-        if re.search('East', no):
-            addtl_tags['direction'] = 'East'
+        print(addtl_tags)
         return addtl_tags
 
 #%%
 if __name__ == '__main__':
     pprint(get_non_numeric(file, 'addr:housenumber'))
+    

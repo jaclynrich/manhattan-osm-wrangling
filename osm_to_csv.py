@@ -451,9 +451,6 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:street':
                 rel_tags['value'] = update_street(value)
                 addtl_tags.append(get_additional_street_tags(value))
-            elif key == 'addr:place':
-                key = get_key(value, key, addr_place_key_mapping)
-                rel_tags['value'] = clean_w_map(value, addr_place_mapping)
             elif key == 'addr:unit':
                 key = change_addr_unit_key(value)
                 rel_tags['value'] = update_addr_unit(value)
