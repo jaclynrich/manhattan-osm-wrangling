@@ -57,3 +57,4 @@ def get_additional_shop_tags(shop):
 
 if __name__ == '__main__':
     pprint(get_unexpected_counts(file, 'shop', shops))
+    pprint(get_unexpected_counts(file, 'shop_1', shops))

@@ -33,6 +33,7 @@ for tr in table.findAll('tr', attrs={'id': re.compile(r'^amenity-')}):
 amenity_key_mapping = {'chiropractic': 'healthcare:specialty',
                        'clothing store': 'shop',
                        'disused': 'disused:amenity',
+                       'gallery': 'tourism',
                        'gym': 'leisure',
                        'houseware': 'shop',
                        'nail_salon': 'shop',
@@ -50,6 +51,7 @@ serviced/repaired, but there is no acceptable value for a car hire
 """
 amenity_mapping = {'car_service': None,
                    'clothing store': 'clothes',
+                   'diner': 'restaurant',
                    'disused': 'restaurant',
                    'gym': 'fitness_centre',
                    'nail_salon': 'beauty',
@@ -61,3 +63,5 @@ amenity_mapping = {'car_service': None,
      
 if __name__ == '__main__':
     pprint(get_unexpected_counts(file, 'amenity', official_amenities))
+    pprint(get_unexpected_counts(file, 'amenity_1', official_amenities))
+    pprint(get_unexpected_counts(file, 'amenity_2', official_amenities))

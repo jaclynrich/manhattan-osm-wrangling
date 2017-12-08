@@ -110,7 +110,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:country':
                 # No need for function, US is the only valid value
                 node_tags['value'] = 'US'
-            elif key == 'building':
+            elif key == 'building' or key == 'building_1':
+                key = 'building'
                 key = get_key(value, key, building_key_mapping)
                 node_tags['value'] = clean_w_map(value, building_mapping)
             elif key == 'roof:material':
@@ -122,7 +123,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'capacity':
                 key = get_key(value, key, capacity_key_mapping)
                 node_tags['value'] = clean_w_map(value, capacity_mapping)
-            elif key == 'amenity':
+            elif key == 'amenity' or key == 'amenity_1' or key == 'amenity_2':
+                key = 'amenity'
                 key = get_key(value, key, amenity_key_mapping)
                 node_tags['value'] = clean_w_map(value, amenity_mapping)
             elif key == 'building:part':
@@ -130,7 +132,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
                 node_tags['value'] = value
-            elif key == 'shop':
+            elif key == 'shop' or key == 'shop_1':
+                key == 'shop'
                 key = get_key(value, key, shop_key_mapping)
                 node_tags['value'] = clean_w_map(value, shop_mapping)
                 addtl_tags.append(get_additional_shop_tags(value))
@@ -258,7 +261,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:country':
                 # No need for function, US is the only valid value
                 way_tags['value'] = 'US'
-            elif key == 'building':
+            elif key == 'building' or key == 'building_1':
+                key = 'building'
                 key = get_key(value, key, building_key_mapping)
                 way_tags['value'] = clean_w_map(value, building_mapping)
             elif key == 'roof:material':
@@ -270,7 +274,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'capacity':
                 key = get_key(value, key, capacity_key_mapping)
                 way_tags['value'] = clean_w_map(value, capacity_mapping)
-            elif key == 'amenity':
+            elif key == 'amenity' or key == 'amenity_1' or key == 'amenity_2':
+                key = 'amenity'
                 key = get_key(value, key, amenity_key_mapping)
                 way_tags['value'] = clean_w_map(value, amenity_mapping)
             elif key == 'building:part':
@@ -278,7 +283,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
                 way_tags['value'] = value
-            elif key == 'shop':
+            elif key == 'shop' or key == 'shop_1':
+                key == 'shop'
                 key = get_key(value, key, shop_key_mapping)
                 way_tags['value'] = clean_w_map(value, shop_mapping)
                 addtl_tags.append(get_additional_shop_tags(value))
@@ -415,7 +421,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'addr:country':
                 # No need for function, US is the only valid value
                 rel_tags['value'] = 'US'
-            elif key == 'building':
+            elif key == 'building' or key == 'building_1':
+                key = 'building'
                 key = get_key(value, key, building_key_mapping)
                 rel_tags['value'] = clean_w_map(value, building_mapping)
             elif key == 'roof:material':
@@ -427,7 +434,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'capacity':
                 key = get_key(value, key, capacity_key_mapping)
                 rel_tags['value'] = clean_w_map(value, capacity_mapping)
-            elif key == 'amenity':
+            elif key == 'amenity' or key == 'amenity_1' or key == 'amenity_2':
+                key = 'amenity'
                 key = get_key(value, key, amenity_key_mapping)
                 rel_tags['value'] = clean_w_map(value, amenity_mapping)
             elif key == 'building:part':
@@ -435,7 +443,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
                 rel_tags['value'] = value
-            elif key == 'shop':
+            elif key == 'shop' or key == 'shop_1':
+                key == 'shop'
                 key = get_key(value, key, shop_key_mapping)
                 rel_tags['value'] = clean_w_map(value, shop_mapping)
                 addtl_tags.append(get_additional_shop_tags(value))

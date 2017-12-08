@@ -47,3 +47,4 @@ building_mapping = {'no': None,
 
 if __name__ == '__main__':
     pprint(get_unexpected_counts(file, 'building', official_buildings))
+    pprint(get_unexpected_counts(file, 'building_1', official_buildings))
