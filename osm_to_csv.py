@@ -63,6 +63,7 @@ RELATION_TAG_FIELDS = ['id', 'key', 'value']
 RELATION_MEMBER_FIELDS = ['id', 'type', 'node_id', 'role', 'position']
 
 #%%
+
 def shape_element(element, node_attr_fields=NODE_FIELDS,
                   way_attr_fields=WAY_FIELDS,
                   rel_attr_fields = RELATIONS_FIELDS):
@@ -94,7 +95,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             if key == 'addr:postcode':
                 node_tags['value'] = update_postcode(value)
             elif key == 'postal_code':
-                key == 'addr:postcode'
+                key = 'addr:postcode'
             elif key == 'height':
                 node_tags['value'] = clean_w_map(value, height_mapping)
             elif key == 'min_height':
@@ -128,6 +129,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 node_tags['value'] = clean_w_map(value, building_part_mapping)
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
+                node_tags['value'] = value
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
                 node_tags['value'] = clean_w_map(value, shop_mapping)
@@ -137,10 +139,10 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'phone':
                 node_tags['value'] = update_phone(value)
             elif key == 'Phone':
-                key == 'phone'
+                key = 'phone'
                 node_tags['value'] = update_phone(value)
             elif key == 'phone_1':
-                key == 'phone'
+                key = 'phone'
                 node_tags['value'] = update_phone(value)
             elif key == 'contact:phone':
                 node_tags['value'] = update_phone(value)
@@ -241,7 +243,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             if key == 'addr:postcode':
                 way_tags['value'] = update_postcode(value)
             elif key == 'postal_code':
-                key == 'addr:postcode'
+                key = 'addr:postcode'
             elif key == 'height':
                 way_tags['value'] = clean_w_map(value, height_mapping)
             elif key == 'min_height':
@@ -275,6 +277,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = clean_w_map(value, building_part_mapping)
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
+                way_tags['value'] = value
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
                 way_tags['value'] = clean_w_map(value, shop_mapping)
@@ -307,6 +310,9 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'building:level':
                 key = 'building:levels'
                 way_tags['value'] = value
+            elif key == 'building:levels':
+                way_tags['value'] = clean_w_map(value, building_levels_mapping)
+    
             elif key == 'levels':
                 key = 'level'
                 way_tags['value'] = value
@@ -394,7 +400,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             if key == 'addr:postcode':
                 rel_tags['value'] = update_postcode(value)
             elif key == 'postal_code':
-                key == 'addr:postcode'
+                key = 'addr:postcode'
             elif key == 'height':
                 rel_tags['value'] = clean_w_map(value, height_mapping)
             elif key == 'min_height':
@@ -428,6 +434,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 rel_tags['value'] = clean_w_map(value, building_part_mapping)
             elif key == 'leisure':
                 key = get_key(value, key, leisure_key_mapping)
+                rel_tags['value'] = value
             elif key == 'shop':
                 key = get_key(value, key, shop_key_mapping)
                 rel_tags['value'] = clean_w_map(value, shop_mapping)
@@ -457,6 +464,8 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
             elif key == 'building:level':
                 key = 'building:levels'
                 rel_tags['value'] = value
+            elif key == 'building:levels':
+                rel_tags['value'] = clean_w_map(value, building_levels_mapping)
             elif key == 'levels':
                 key = 'level'
                 rel_tags['value'] = value
@@ -538,7 +547,6 @@ def get_element(osm_file, tags=('node', 'way', 'relation')):
         if event == 'end' and elem.tag in tags:
             yield elem
             root.clear()
-
 
 def validate_element(element, validator, schema=SCHEMA):
     """Raise ValidationError if element does not match schema"""
