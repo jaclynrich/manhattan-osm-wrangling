@@ -19,7 +19,7 @@ street_type_re = re.compile(r'\b\S+\.?$', re.IGNORECASE)
 invalid_streets = ['Washington Square Village', 'Track', '633', 
                    'Broadway Atrium', 'Grand Central Terminal',
                    'World Trade Center', 'World Financial Center',
-                   'Gramercy Park']
+                   'Gramercy Park', 'State St & Water St']
 
 expected = ['Street', 'Avenue', 'Boulevard', 'Drive', 'Court', 'Place',
             'Square', 'Lane', 'Road', 'Trail', 'Parkway', 'Commons', 'Way',
@@ -65,8 +65,7 @@ full_street_mapping = {'85th West Street': 'West 85th Street',
                        'W 27 Street': 'West 27th Street',
                        'West 35 Street': 'West 35th Street',
                        'Saint Mark\'s Place': 'Saint Marks Place',
-                       '110 Sixth Ave. At Watts St': '110 6th Avenue',
-                       'State St & Water St': 'State Street & Water Street'}
+                       '110 Sixth Ave. At Watts St': '110 6th Avenue'}
 
 street_type_mapping = {'Ave': 'Avenue',
                        'Avene': 'Avenue',
@@ -283,6 +282,8 @@ def update_street(s):
     st_type = get_street_type(s)
     if st_type in street_type_mapping:
         s = re.sub(st_type, street_type_mapping[st_type], s)
+    #if s == 'State Street & Water Street':
+    #    return None
     return s.strip()
 
 #%% Return a dictionary of the additional tags that are embedded in the street
@@ -301,6 +302,8 @@ def get_additional_street_tags(s):
         addtl_tags['addr:floor'] = extract_floor(s)
     if has_housenumber(s):
         addtl_tags['addr:housenumber'] = extract_housenumber(s)
+    if s == 'State St & Water St':
+        addtl_tags['addr:full'] = 'State Street & Water Street'
     return addtl_tags
 
 #%%
