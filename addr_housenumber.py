@@ -56,7 +56,6 @@ def update_addr_housenumber(no):
     if check_acceptable(no) or no is None:
         return no
     else:
-        print(no)
         # Those that do not match any of the regex have street info attached
         return no.split(' ', maxsplit=1)[0].replace(',', '')
     
@@ -98,7 +97,6 @@ def get_additional_housenumber_tags(no):
             addtl_tags['direction'] = 'West'
         if re.search('|'.join(['[\s]+[EЕ]$', 'East']), no):
             addtl_tags['direction'] = 'East'
-        print(addtl_tags)
         return addtl_tags
 
 #%%
