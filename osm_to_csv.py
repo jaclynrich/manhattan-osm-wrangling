@@ -133,7 +133,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 key = get_key(value, key, leisure_key_mapping)
                 node_tags['value'] = value
             elif key == 'shop' or key == 'shop_1':
-                key == 'shop'
+                key = 'shop'
                 key = get_key(value, key, shop_key_mapping)
                 node_tags['value'] = clean_w_map(value, shop_mapping)
                 addtl_tags.append(get_additional_shop_tags(value))
@@ -284,7 +284,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 key = get_key(value, key, leisure_key_mapping)
                 way_tags['value'] = value
             elif key == 'shop' or key == 'shop_1':
-                key == 'shop'
+                key = 'shop'
                 key = get_key(value, key, shop_key_mapping)
                 way_tags['value'] = clean_w_map(value, shop_mapping)
                 addtl_tags.append(get_additional_shop_tags(value))
@@ -318,7 +318,6 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 way_tags['value'] = value
             elif key == 'building:levels':
                 way_tags['value'] = clean_w_map(value, building_levels_mapping)
-    
             elif key == 'levels':
                 key = 'level'
                 way_tags['value'] = value
@@ -444,7 +443,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS,
                 key = get_key(value, key, leisure_key_mapping)
                 rel_tags['value'] = value
             elif key == 'shop' or key == 'shop_1':
-                key == 'shop'
+                key = 'shop'
                 key = get_key(value, key, shop_key_mapping)
                 rel_tags['value'] = clean_w_map(value, shop_mapping)
                 addtl_tags.append(get_additional_shop_tags(value))
