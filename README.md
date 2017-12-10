@@ -1,9 +1,9 @@
 # OpenStreetMap Data Wrangling and Case Study
 ***
 
-The goal of this project was to clean fields of interest using Python and explore the OpenStreetMap data for a specific geographical area using SQL.
+The goal of this project was to clean fields of interest using Python and explore the OpenStreetMap data for lower Manhattan and parts of Brooklyn using SQL.
 
-Each individual field has a separate Python scripts in which the field is audited and cleaning functions and mappings are defined:
+Each individual field has a separate Python script in which the field is audited and cleaning functions and mappings are defined:
 * addr_city.py
 * addr_country.py
 * addr_floor.py
@@ -25,4 +25,4 @@ Each individual field has a separate Python scripts in which the field is audite
 * roof_material.py
 * shop.py
 
-Auditing functions for use in most of the scripts were defined in auditing.py.  cleaning.py contains two general  cleaning functions and mappings for fields that only need a mapping to be cleaned.  clean_tag_values.py audits the clean tags.  The schema for the database is defined in schema.py.  osm_to_csv.py reads in the OSM map data, cleans it, and writes it to csvs according to the schema.  create_db.py reads the csvs and creates a SQLite database, osm.db.
+Auditing functions that were used in most of the scripts were defined in auditing.py.  cleaning.py contains two general  cleaning functions and mappings for fields that only need a mapping to be cleaned.  clean_tag_values.py audits the clean tags.  The schema for the database is defined in schema.py.  osm_to_csv.py reads in the OSM map data, cleans it, and writes it to csvs according to the schema.  create_db.py reads the csvs and creates a SQLite database, osm.db.
