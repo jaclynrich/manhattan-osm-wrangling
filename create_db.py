@@ -146,7 +146,7 @@ cur.execute('''
             key TEXT,
             value TEXT,
             FOREIGN KEY(id) REFERENCES Way(id)
-            CONSTRAINT PK_NodeTag PRIMARY KEY (id, key, value))
+            CONSTRAINT PK_WayTag PRIMARY KEY (id, key, value))
             ''')
 conn.commit()
 
