@@ -3,7 +3,7 @@
 
 The goal of this project was to clean fields of interest using Python and explore the OpenStreetMap data for lower Manhattan and parts of Brooklyn using SQL.
 
-Each individual field has a separate Python script in which the field is audited and cleaning functions and mappings are defined:
+Each individual field has a separate Python script in which the field is audited, and cleaning functions and mappings are defined:
 * addr_city.py
 * addr_country.py
 * addr_floor.py
