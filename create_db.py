@@ -10,11 +10,11 @@ import sqlite3
 import csv
 from pprint import pprint
 
-sqlite_file = 'osm.db'
+sqlite_file = 'output_and_report/osm.db'
 conn = sqlite3.connect(sqlite_file)
 cur = conn.cursor()
 
-#%% Create Node table, read in csv and load data into the table 
+#%% Create Node table, read in csv and load data into the table
 cur.execute('''
             CREATE TABLE Node (
             id INT PRIMARY KEY NOT NULL,
@@ -28,7 +28,7 @@ cur.execute('''
             ''')
 conn.commit()
 
-with open('nodes.csv', 'r') as fin:
+with open('output_and_report/nodes.csv', 'r') as fin:
     dr = csv.DictReader(fin)
     to_db = [(i['id'], i['lat'], i['lon'], i['user'], i['uid'], i['version'],
               i['changeset'], i['timestamp']) for i in dr]
@@ -48,7 +48,7 @@ cur.execute('''
 all_rows = cur.fetchall()
 pprint(all_rows)
 
-#%% Create NodeTag table, read in csv and load data into the table 
+#%% Create NodeTag table, read in csv and load data into the table
 
 cur.execute('''
             CREATE TABLE NodeTag (
@@ -60,7 +60,7 @@ cur.execute('''
             ''')
 conn.commit()
 
-with open('nodes_tags.csv', 'r') as fin:
+with open('output_and_report/nodes_tags.csv', 'r') as fin:
     dr = csv.DictReader(fin)
     to_db = [(i['id'], i['key'], i['value']) for i in dr]
 
@@ -76,7 +76,7 @@ all_rows = cur.fetchall()
 
 pprint(all_rows)
 
-#%% Create Way table, read in csv and load data into the table 
+#%% Create Way table, read in csv and load data into the table
 cur.execute('''
             CREATE TABLE Way (
             id INT PRIMARY KEY NOT NULL,
@@ -88,7 +88,7 @@ cur.execute('''
             ''')
 conn.commit()
 
-with open('ways.csv', 'r') as fin:
+with open('output_and_report/ways.csv', 'r') as fin:
     dr = csv.DictReader(fin)
     to_db = [(i['id'], i['user'], i['uid'], i['version'], i['changeset'],
               i['timestamp']) for i in dr]
@@ -107,7 +107,7 @@ cur.execute('''
 all_rows = cur.fetchall()
 pprint(all_rows)
 
-#%% Create WayNode table, read in csv and load data into the table 
+#%% Create WayNode table, read in csv and load data into the table
 
 cur.execute('''
             CREATE TABLE WayNode (
@@ -119,12 +119,12 @@ cur.execute('''
             ''')
 conn.commit()
 
-with open('ways_nodes.csv', 'r') as fin:
+with open('output_and_report/ways_nodes.csv', 'r') as fin:
     dr = csv.DictReader(fin)
     to_db = [(i['id'], i['node_id'], i['position']) for i in dr]
 
 cur.executemany('''
-                INSERT INTO WayNode(id, node_id, position) 
+                INSERT INTO WayNode(id, node_id, position)
                 VALUES (?, ?, ?)
                 ''', to_db)
 conn.commit()
@@ -138,7 +138,7 @@ all_rows = cur.fetchall()
 
 pprint(all_rows)
 
-#%% Create WayTag table, read in csv and load data into the table 
+#%% Create WayTag table, read in csv and load data into the table
 
 cur.execute('''
             CREATE TABLE WayTag (
@@ -150,7 +150,7 @@ cur.execute('''
             ''')
 conn.commit()
 
-with open('ways_tags.csv', 'r') as fin:
+with open('output_and_report/ways_tags.csv', 'r') as fin:
     dr = csv.DictReader(fin)
     to_db = [(i['id'], i['key'], i['value']) for i in dr]
 
@@ -166,7 +166,7 @@ all_rows = cur.fetchall()
 
 pprint(all_rows)
 
-#%% Create Relation table, read in csv and load data into the table 
+#%% Create Relation table, read in csv and load data into the table
 cur.execute('''
             CREATE TABLE Relation (
             id INT PRIMARY KEY NOT NULL,
@@ -178,7 +178,7 @@ cur.execute('''
             ''')
 conn.commit()
 
-with open('relations.csv', 'r') as fin:
+with open('output_and_report/relations.csv', 'r') as fin:
     dr = csv.DictReader(fin)
     to_db = [(i['id'], i['user'], i['uid'], i['version'], i['changeset'],
               i['timestamp']) for i in dr]
@@ -198,7 +198,7 @@ cur.execute('''
 all_rows = cur.fetchall()
 pprint(all_rows)
 
-#%% Create RelationTag table, read in csv and load data into the table 
+#%% Create RelationTag table, read in csv and load data into the table
 
 cur.execute('''
             CREATE TABLE RelationTag (
@@ -210,7 +210,7 @@ cur.execute('''
             ''')
 conn.commit()
 
-with open('relations_tags.csv', 'r') as fin:
+with open('output_and_report/relations_tags.csv', 'r') as fin:
     dr = csv.DictReader(fin)
     to_db = [(i['id'], i['key'], i['value']) for i in dr]
 
@@ -227,7 +227,7 @@ all_rows = cur.fetchall()
 
 pprint(all_rows)
 
-#%% Create RelationMember table, read in csv and load data into the table 
+#%% Create RelationMember table, read in csv and load data into the table
 
 cur.execute('''
             CREATE TABLE RelationMember (
@@ -242,13 +242,13 @@ cur.execute('''
             ''')
 conn.commit()
 
-with open('relations_members.csv', 'r') as fin:
+with open('output_and_report/relations_members.csv', 'r') as fin:
     dr = csv.DictReader(fin)
     to_db = [(i['id'], i['type'], i['node_id'], i['role'],
               i['position']) for i in dr]
 
 cur.executemany('''
-                INSERT INTO RelationMember(id, type, node_id, role, position) 
+                INSERT INTO RelationMember(id, type, node_id, role, position)
                 VALUES (?, ?, ?, ?, ?)
                 ''', to_db)
 conn.commit()
